@@ -1,0 +1,80 @@
+<aside class="main-sidebar">
+    <!-- sidebar: style can be found in sidebar.less -->
+    <section class="sidebar">
+      <!-- Sidebar user panel -->
+      <div class="user-panel">
+        <div class="pull-left image">
+          {% if owner_user['foto'] == 1 %}
+            <img src="views/app/images/avatares/{{ owner_user['name_foto'] }}" class="img-circle" alt="User Image">
+          {% else %}
+            <img src="//ssl.gstatic.com/accounts/ui/avatar_2x.png" class="img-circle" alt="User Image">
+          {% endif %}
+
+        </div>
+        <div class="pull-left info">
+          <p>{{ owner_user['name']|title }}</p>
+          <a href="portal"><i class="fa fa-circle text-success"></i>Online</a>
+        </div>
+      </div>
+      <!-- search form -->
+      <form action="#" method="get" class="sidebar-form">
+        <div class="input-group">
+          <input type="text" name="q" class="form-control" placeholder="Buscar...">
+          <span class="input-group-btn">
+                <button type="submit" name="search" id="search-btn" class="btn btn-flat"><i class="fa fa-search"></i>
+                </button>
+              </span>
+        </div>
+      </form>
+      <!-- /.search form -->
+      <!-- sidebar menu: : style can be found in sidebar.less -->
+      <ul class="sidebar-menu" >
+      <li class="header">MENÚ PRINCIPAL</li>
+        {% if menu_op == 0 %}
+            <li class="active treeview">
+        {% else %}
+            <li class="treeview">
+        {% endif %}
+            <a href="portal"><i class="fa fa-home"></i><span>HOME</span>
+            </a>
+        </li>
+      </ul>
+      <ul class="sidebar-menu" data-widget="tree">
+
+
+          {% set id = 0 %}
+          {% set cont = 0 %}
+          {% for m in menu_user if false != menu_user %}
+
+              {% if id != m.id_menu %}
+                  {% if cont >= 1 %}
+                  </ul>
+              </li>
+                  {% endif %}
+              {% if menu_op == m.id_menu %}
+              <li class="active treeview">
+              {% else %}
+              <li class="treeview">
+              {% endif %}
+                  <a href="{{ m.url }}">
+                      <i class='fa {{ m.glyphicon }}'></i>
+                      <span>
+
+                      {{ m.menu|raw|convert_encoding('UTF-8', 'ISO-8859-1')|upper }}
+
+                      </span><i class="fa fa-angle-left pull-right"></i>
+                  </a>
+                  <ul class="treeview-menu">
+              {% endif %}
+
+                      <li>
+                          <a href="{{ m.url }}"><i class="fa fa-circle-o"></i>{{ m.submenu|capitalize|raw|convert_encoding('UTF-8', 'ISO-8859-1') }}</a>
+                      </li>
+
+              {% set id=m.id_menu %}
+              {% set cont =  cont + 1 %}
+          {% endfor %}
+      </ul>
+    </section>
+    <!-- /.sidebar -->
+  </aside>

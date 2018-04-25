@@ -1,0 +1,54 @@
+{% extends 'portal/portal' %}
+{% block appBody %}
+<section class="content-header">
+    <h4>
+      <i class="fa fa-user"></i> PERFILES DE PLANTILLA
+    </h4>
+    <ol class="breadcrumb">
+      <li><a href="portal"><i class="fa fa-home"></i> Home </a></li>
+      <li class="active"> PERFILES DE PLANTILLA </li>
+    </ol>
+</section>
+
+<section class="content">
+  <div class="row">
+    <div class="col-md-12">
+      <div class="box box-primary">
+        <div class="box-body">
+          <form id="form_select_perfil" name="form_select_perfil" role="form" method="POST" enctype="multipart/form-data">
+            <div class="form-group">
+              <div class="panel-footer">
+                <label>
+                  <select name='select_perfil' onchange=mostar_datos_perfil();>
+                    <option>--</option>
+                    {% for p in db_perfiles if false != db_perfiles %}
+                    <option value='{{ p.nombre }}'>{{ p.nombre }}</option>
+                    {% endfor %}
+                  </select>
+                </label>
+                <label>
+                    <input type='button' name='Submit' value='Consultar' id='submit' class="btn btn-sm btn-success" onclick="mostar_datos_perfil(); return false"/>
+                </label>
+                <label>
+                    <input type='button' name='nuevoperfil' value='Nuevo perfil' id='nuevoperfil' class="btn btn-sm btn-success" data-toggle="modal" data-target="#modal_new_perfil">
+                </label>
+                <label>
+                    <input type='button' name='deleteperfil' value='Elimina perfil' id='deleteperfil' class="btn btn-sm btn-success">
+                </label>
+              </div>
+            </div>
+          </form>
+          <div class="box-body col-sm-4"></div>
+          <div class="box-body col-sm-4">
+            <div id="mostar_datos_perfil"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div><!-- /.box footer -->
+</section>
+{% include 'administracion/nuevo_perfil' %}
+{% endblock %}
+{% block appScript %}
+    <script src="views/app/js/administracion/administracion.js"></script>
+{% endblock %}

@@ -1,0 +1,131 @@
+{% extends 'portal/portal' %}
+{% block appStylos %}
+  <link rel="stylesheet" href="views/app/template/datatables/dataTables.bootstrap.css">
+{% endblock %}
+{% block appBody %}
+    <section class="content-header">
+        <h1>
+            RRHH
+            <small>Registro de Ausencias</small>
+            <a class="btn btn-primary btn-social pull-right" href="rrhh/ausencias" title="Agregar" data-toggle="tooltip">
+                <i class="fa fa-plus"></i> Agregar Nueva Ausencia
+            </a>
+        </h1>
+    </section>
+    <section class="content">
+        <div class="row">
+            <div class="col-md-12">
+                <div class="box box-primary">
+                    <div class="box-body">
+                        <form id="formrevisar" name="formrevisar"  method="post">
+                            <div class="input-daterange">
+                                <label>Desde </label>
+                                <label>&nbsp;</label>
+                                <input type="date" id="revdesde" name="revdesde" value='{{ "now"|date("Y-m-d") }}'>
+                                <label> Hasta </label>
+                                <label>&nbsp;</label>
+                                <input type="date" id="revhasta" name="revhasta" value='{{ "now"|date("Y-m-d") }}'>
+                                <label>&nbsp;</label>
+                                <button type="button" name="btnbuscar" id="btnbuscar" onclick="revisar_por_fecha()" class="btn btn-primary">Aplicar Filtrar</button>
+                                <button type="button" onclick="location.reload();" class="btn btn-primary">Quitar Filtro</button>
+                                <a class="btn btn-success btn-social" id="btn_exporta_excel_ausencias" title="Exportar a Excel" data-toggle="tooltip">
+                                    <i class="fa fa-arrow-down"></i> Exportar Excel
+                                </a>
+                            </div>
+                            <hr>
+                            <table id="dataTables2" class="table table-bordered" >
+                                <thead>
+                                    <tr>
+                                        <th>id</th>
+                                        <th width='200'>Nombre</th>
+                                        <th>Tipo de Ausencia</th>
+                                        <th>Desde</th>
+                                        <th>Hasta</th>
+                                        <th width='200'>Creado por</th>
+                                        <th>Última modificacion</th>
+                                        <th  width='100'>Funciones</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    {% set No = 1 %}
+                                    {% for d in db_inasistencias if false != db_inasistencias %}
+                                        <tr>
+                                            <td>{{No}}</td>
+                                            <td>{{d.nombres |raw|title }}</td>
+                                            <td>{{ d.tipo_ausencia }}</td>
+                                            <td>{{ d.desde  }}</td>
+                                            <td>{{ d.hasta }}</td>
+                                            <td>{{d.name}}</td>
+                                            <td>{{d.fechamod}}</td>
+                                            <td class='center'>
+                                                {% if d.usu_registra == owner_user[0] %}
+                                                    <a data-toggle='tooltip' data-placement='top' title='Modificar' class='btn btn-warning btn-sm' href='rrhh/modificarausencia/{{d.id_tblausencias}}'>
+                                                        <i class='glyphicon glyphicon-edit'></i>
+                                                    </a>
+                                                {% else %}
+                                                    <a data-toggle='tooltip' data-placement='top' title='Modificar' class='btn btn-warning btn-sm' disabled>
+                                                        <i class='glyphicon glyphicon-edit'></i>
+                                                    </a>
+                                                {% endif %}
+                                                {% if d.usu_registra == owner_user[0] %}
+                                                    <a data-toggle='tooltip' data-placement='top' name="btneliminar" onclick="validacion_eliminar('{{ d.id_tblausencias }}')"
+                                                    class='btn btn-danger btn-sm'>
+                                                        <i class='glyphicon glyphicon-remove'></i>
+                                                    </a>
+                                                {% else %}
+                                                    <a data-toggle='tooltip' data-placement='top' name="btneliminar" class='btn btn-danger btn-sm' disabled>
+                                                        <i class='glyphicon glyphicon-remove'></i>
+                                                    </a>
+                                                {% endif %}
+                                                <a data-toggle='tooltip' data-placement='top' name="btnver" class='btn btn-success btn-sm' onclick="verdescripcion('{{d.id_tblausencias}}')">
+                                                    <i class='glyphicon glyphicon-eye-open'></i>
+                                                </a>
+                                                <input type="hidden" name="textid" value="{{ d.id_tblausencias }}">
+                                            </td>
+                                        </tr>
+                                    {% set No =  No + 1 %}
+                                    {% endfor %}
+                                </tbody>
+
+                                <input type="hidden" name="idprueba" id="idprueba">
+                                <input type="hidden" id="textoarea" name="textoarea" value="{{db_nuevo.id_area}}">
+                            </table>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+{% endblock %}
+
+{% block appScript %}
+
+    <script src="views/app/template/datatables/jquery.dataTables.min.js" type="text/javascript"></script>
+    <script src="views/app/template/datatables/dataTables.bootstrap.min.js" type="text/javascript"></script>
+
+    <script src="views/app/js/rrhh/ausencias.js"></script>
+
+    <script>
+
+    $("#dataTables2").dataTable({
+         "language": {
+                "search": "Buscar:",
+                "zeroRecords": "No hay datos para mostrar",
+                "info":"Mostrando _END_ Registros, de un total de _TOTAL_ ",
+                "loadingRecords": "Cargando...",
+                "processing":"Procesando...",
+                "infoEmpty":"No hay entradas para mostrar",
+                "lengthMenu": "Mostrar _MENU_ Filas",
+                "paginate":{
+                  "first":"Primera",
+                  "last":"Ultima",
+                  "next":"Siguiente",
+                  "previous":"Anterior",
+                }
+            },
+            "autoWidth": true,
+            "scrollX": true
+         });
+
+    </script>
+{% endblock %}

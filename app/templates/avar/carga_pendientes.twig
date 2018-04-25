@@ -1,0 +1,122 @@
+{% extends 'portal/portal' %}
+{% block appBody %}
+
+    <section class="content-header">
+        <h1>
+            AVAR
+            <small>Carga de Blindaje</small>
+        </h1>
+        <ol class="breadcrumb">
+            <li>
+                <a href="#">
+                    <i class="fa fa-home"></i>
+                    Home</a>
+            </li>
+            <li class="active">Cargar Pendiente de blindaje</li>
+        </ol>
+    </section>
+
+    <section class="content">
+        <div class="row">
+            <div class="col-md-12">
+                <div class="box box-primary">
+                    <div class="box-body col-sm-6">
+                        <div class="form-group">
+                            <form id="formblindaje" name="formblindaje" method="post">
+                                <input class='filestyle' data-buttontext="Logo" id="blindfile" onchange="document.getElementById('archivo').value=document.getElementById('blindfile').value" tabindex="-1" style="position:absolute; clip: rect(0px 0px 0px 0px);" type="file" name="files[]" accept="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet">
+                                <div class="bootstrap-filestyle input-group">
+                                    <input type="text" class="form-control" id="archivo" placeholder="" disabled="">
+                                    <span class="group-span-filestyle input-group-btn" tabindex="0">
+                                        <label for="blindfile" class="btn btn-default ">
+                                            <span class="icon-span-filestyle glyphicon glyphicon-share"></span>
+                                            <span class="buttonText">Buscar Archivo</span>
+                                        </label>
+                                    </span>
+                                </div>
+                                <div id="div_cargando">
+                                    <a class="btn btn-success btn-social" title="Exportar a Excel" data-toggle="tooltip" onclick="subirarchivoexcel()">
+                                        <i class="fa fa-arrow-up"></i>
+                                        Cargar Turnos
+                                    </a>
+                                </div>
+                            </form>
+                        </div>
+
+                        <p>
+                            <strong>Ultimos 5 archivos cargados</strong>
+                        </p>
+                        <table class="table table-bordered">
+                            <thead>
+                                <th>No</th>
+                                <th>Fecha y hora</th>
+                                <th>Nombre de Archivo</th>
+                            </thead>
+                            <tbody>
+                                {% set No = 1 %}
+                                {% for d in db_archivos if false != db_archivos %}
+                                    <tr>
+                                        <td>{{ No }}</td>
+                                        <td>{{ d.fecha_hora }}</td>
+                                        <td>{{ d.nombre_archivo }}</td>
+                                    </tr>
+                                    {% set No = No + 1 %}
+                                {% endfor %}
+                            </tbody>
+                        </table>
+
+                    </div>
+                    <div class="box-body col-sm-3">
+                        <span>
+                            <b>Formato de Archivo</b>
+                            <p>Col A -> RUT</p>
+                            <p>Col B -> DESC_ACTIV</p>
+                            <p>Col C -> LOCALIDAD</p>
+                            <p>Col D -> NMRO_ORDEN</p>
+                            <p>Col E -> NMRO_ACTIV</p>
+                            <p>Col F -> FECHA_CREACION</p>
+                            <p>Col G -> FECHA_COMPROMISO</p>
+                            <p>Col H -> FECHA_COMPROMISO2</p>
+                            <p>Col I -> CODI_HORARIO</p>
+                            <p>Col J -> FECHA_INGRESO</p>
+                            <p>Col K -> CONTEXTO</p>
+                            <p>Col L -> TIPO_ACTIV</p>
+                            <p>Col M -> ESTD_ACTIV</p>
+                            <p>Col N -> CODI_AREAFUN</p>
+                            <p>Col O -> DESC_AREAFUN</p>
+                            <p>Col P -> RUT_TECNICO</p>
+                            <p>Col Q -> CODI_TECNICO</p>
+                            <p>Col R -> NODO</p>
+                            <p>Col S -> SUBNODO</p>
+                            <p>Col T -> DIRECCION</p>
+                        </span>
+                    </div>
+                    <div class="box-body col-sm-3">
+                        <span>
+                            <p>Col U -> FONO_CONTACTO</p>
+                            <p>Col V -> OBSERVACION</p>
+                            <p>Col W -> IDEN_VIVIENDA</p>
+                            <p>Col X -> IDEN_SERVICIO</p>
+                            <p>Col Y -> NMRO_SERVICIO</p>
+                            <p>Col Z -> FONO</p>
+                            <p>Col AA -> TV</p>
+                            <p>Col AB -> INTERNET</p>
+                            <p>Col AC -> FECHA_INGRESO_OT</p>
+                            <p>Col AD -> FECHA_OT</p>
+                            <p>Col AE -> HORA_OT</p>
+                            <p>Col AF -> T</p>
+                            <p>Col AG -> AREA_FUNCIONAL</p>
+                            <p>Col AH -> AGENDAMIENTO_BLINDAJE</p>
+                            <p>Col AI -> COMUNA</p>
+                            <p>Col AJ -> ZONA</p>
+                            <p>Col AK -> TIPO_CLIENTE</p>
+                            <p>Col AL -> ACTIVIDAD</p>
+                        </span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+{% endblock %}
+{% block appScript %}
+    <script src="views/app/js/avar/avar.js"></script>
+{% endblock %}

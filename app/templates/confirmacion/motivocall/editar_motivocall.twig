@@ -1,0 +1,44 @@
+{% extends 'portal/portal' %}
+{% block appStylos %}
+{% endblock %}
+{% block appBody %}
+    <section class="content-header">
+        <h1>
+            Confirmación
+            <small>Editar Motivo de Llamado</small>
+        </h1>
+        <ol class="breadcrumb">
+        <li><a href="#"><i class="fa fa-home"></i> Home</a></li>
+        <li><a href="confirmacion/mantenedores_crud_masters">Mantenedores</a></li>
+        <li><a href="confirmacion/listar_motivocall">Listado de Motivos de llamado</a></li>
+        <li class="active">Editar Motivo de llamado</li>
+        </ol>
+    </section>
+
+    <!-- Main content -->
+    <section class="content">
+      <div class="row">
+        <div class="col-md-12">
+          <div class="box box-primary">
+            <form id="editar_motivocall_form"  action="" method="POST">
+              <div class="box-body col-sm-4"></div>
+              <div class="box-body col-sm-4">
+                <input type='hidden' name='id_motivo' id='id_motivo' value='{{ db_motivocall.id_motivo }}' />
+                <div class="form-group">
+                    <input class="form-control" name="motivo" id="motivo" type="text" placeholder="Motivo de la llamada" value='{{ db_motivocall.motivo }}' required/>
+                </div>
+                <div class="panel-footer text-center">
+                  <button type="button" id="update_motivocall" class="btn btn-default">Grabar</button>
+                </div>
+              </div>
+            </form>
+          </div>
+        </div>
+      </div>
+    </section>
+    <!-- /.content -->
+
+{% endblock %}
+{% block appScript %}
+    <script src="views/app/js/confirmacion/confirmacion.js"></script>
+{% endblock %}

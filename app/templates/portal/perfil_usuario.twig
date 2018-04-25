@@ -1,0 +1,68 @@
+{% extends 'portal/portal' %}
+{% block appBody %}
+<section class="content-header">
+  <h4>
+    <i class="fa fa-user icon-title"></i> Perfil de Usuario
+  </h4>
+  <ol class="breadcrumb">
+    <li><a href="portal"><i class="fa fa-home"></i> Inicio </a></li>
+    <li class="active"> Perfil de Usuario </li>
+  </ol>
+</section>
+<section class="content">
+  <div class="row">
+    <div class="col-md-12">
+      <div class="box box-primary">
+        <form role="form" class="form-horizontal" method="POST" enctype="multipart/form-data">
+          <div class="box-body">
+            <div class="form-group">
+              <label class="col-sm-2 control-label">
+                {% if owner_user['foto'] == 1 %}
+                  <img style="border:1px solid #eaeaea;border-radius:5px;" src="views/app/images/avatares/{{ owner_user['name_foto'] }}" width="128">
+                {% else %}
+                  <img style="border:1px solid #eaeaea;border-radius:5px;" src="//ssl.gstatic.com/accounts/ui/avatar_2x.png" width="128">
+                {% endif %}
+              </label>
+              <label style="font-size:25px;margin-top:10px;" class="col-sm-8">{{ owner_user['name'] }}</label>
+            </div>
+            <hr>
+
+            <div class="form-group">
+              <label class="col-sm-2 control-label">Email</label>
+              <label style="text-align:left" class="col-sm-8 control-label">: {{ owner_user['email'] }}</label>
+            </div>
+
+            <div class="form-group">
+              <label class="col-sm-2 control-label">Cargo</label>
+              <label style="text-align:left" class="col-sm-8 control-label">: {{ owner_user['cargo'] }}</label>
+            </div>
+
+            <div class="form-group">
+              <label class="col-sm-2 control-label">Telefono</label>
+              <label style="text-align:left" class="col-sm-8 control-label">: {{ owner_user['fono'] }}</label>
+            </div>
+
+            <div class="form-group">
+              <label class="col-sm-2 control-label">Rol de acceso</label>
+              <label style="text-align:left" class="col-sm-8 control-label">: {{ owner_user['rol'] ? "Admin":"Usuario" }}</label>
+            </div>
+
+            <div class="form-group">
+              <label class="col-sm-2 control-label">Perfil Asignado</label>
+              <label style="text-align:left" class="col-sm-8 control-label">: {{ owner_user['perfil'] }}</label>
+            </div>
+
+            <div class="form-group">
+              <label class="col-sm-2 control-label">Status</label>
+              <label style="text-align:left" class="col-sm-8 control-label">: {{ owner_user['estado'] ? "Activo":"Desactivo" }}</label>
+            </div>
+          </div><!-- /.box body -->
+
+          <div class="box-footer">
+          </div><!-- /.box footer -->
+        </form>
+      </div>
+    </div>
+  </div>
+</section>
+{% endblock %}

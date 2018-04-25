@@ -1,0 +1,95 @@
+{% extends 'portal/portal' %}
+{% block appBody %}
+    <section class="content-header">
+        <h1>
+            Casilleros
+            <small>Casillero A Editar</small>
+        </h1>
+        <ol class="breadcrumb">
+            <li>
+                <a href="#">
+                    <i class="fa fa-home"></i>
+                    Home</a>
+            </li>
+            <li>
+                <a href="casilleros/listar_casilleros">Listado de Casilleros</a>
+            </li>
+            <li class="active">Editar Casillero</li>
+        </ol>
+    </section>
+    <!-- Main content -->
+    <section class="content">
+        <form id="form_editar_casillero" name="form_editar_casillero">
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="box">
+                        <div class="box-header">
+                            <h3 class="box-title">Editar Casillero</h3>
+                        </div>
+                        <div class="box-body">
+                            <div class="col-md-6">
+                                <label>Numero de Orden:</label><input type="number" name="nOrden" id="nOrden" class="form-control" value="{{ casilleros.n_orden }}">
+                            </div>
+                            <div class="col-md-6">
+                                <label>RUT:</label><input type="text" name="rut" id="rut" class="form-control" value="{{ casilleros.rut }}">
+                            </div>
+                            <div class="col-md-6">
+                                <label>Comuna:</label>
+                                <select name="comuna" id="comuna" class="form-control">
+                                    {% for c in comunas %}
+                                        {% if casilleros.comuna == c.id_comuna %}
+                                            <option value="{{ c.id_comuna }}" selected="selected">{{ c.descripcion }}</option>
+                                        {% else %}
+                                            <option value="{{ c.id_comuna }}">{{ c.descripcion }}</option>
+                                        {% endif %}
+                                    {% endfor %}
+                                </select>
+                            </div>
+                            <div class="col-md-6">
+                                <label>Actividad:</label>
+                                <select name="actividad" id="actividad" class="form-control">
+                                    <option value="{{ casilleros.actividad }}" selected="selected">{{ casilleros.actividad }}</option>
+                                    <option value="Altas">Altas</option>
+                                    <option value="SSTT">SSTT</option>
+                                    <option value="Pet Varias">Pet Varias</option>
+                                    <option value="Traslados">Traslados</option>
+                                </select>
+                            </div>
+                            <div class="col-md-6">
+                                <label>Acción:</label>
+                                <select name="accion" id="accion" class="form-control">
+                                    {% for c in accion %}
+                                        {% if casilleros.accion == c %}
+                                            <option value="{{ casilleros.accion }}" selected="selected">{{ casilleros.accion }}</option>
+                                        {% else %}
+                                            <option value="{{c}}">{{ c }}</option>
+                                        {% endif %}
+                                    {% endfor %}
+                                </select>
+                                <input type="hidden" name="id" id="id" value="{{casilleros.id}}">
+                            </div>
+                            <div class="col-md-6">
+                                <label>Casillero:</label>
+                                <input type="text" name="casillero" id="casillero" class="form-control" value="{{casilleros.casillero}}">
+                            </div>
+                            <div class="col-md-12">
+                                <label>Observación:</label>
+                                <textarea name="observacion" id="observacion" cols="30" rows="3" class="form-control">{{ casilleros.observacion }}</textarea>
+                            </div>
+                            <br>
+                            <div class="col-md-12 text-center">
+                                <br>
+                                <a data-toggle='tooltip' data-placement='top' name="modificarCasillero" id="modificarCasillero" class='btn btn-success btn-lg'>Modificar Casillero
+                                </a>
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </form>
+    </section>
+{% endblock %}
+{% block appScript %}
+    <script src="views/app/js/casilleros/casilleros.js"></script>
+{% endblock %}

@@ -1,0 +1,59 @@
+{% extends 'portal/portal' %}
+{% block appStylos %}{% endblock %}
+{% block appBody %}
+    <section class="content-header">
+        <h1>
+            Plataforma
+            <small>Agregar Casillero</small>
+        </h1>
+        <ol class="breadcrumb">
+            <li>
+                <a href="#">
+                    <i class="fa fa-home"></i>
+                    Home</a>
+            </li>
+            <li>
+                <a href="plataforma/mantenedores_crud_masters">Mantenedores</a>
+            </li>
+            <li>
+                <a href="plataforma/listar_casilleros">Listado de Casilleros</a>
+            </li>
+            <li class="active">Agregar Casillero</li>
+        </ol>
+    </section>
+
+    <!-- Main content -->
+    <section class="content">
+        <div class="row">
+            <div class="col-md-12">
+                <div class="box box-primary">
+                    <form id="register_casillero_form" action="" method="POST">
+                        <div class="box-body col-sm-4"></div>
+                        <div class="box-body col-sm-4">
+                            <div class="form-group">
+                                Nombre Casillero
+                                <input class="form-control" name="nombre" id="nombre" type="text" placeholder="Ingrese nombre del casillero" required="required"/>
+                                <br>
+                                Zonas
+                                <select name="id_zona" id="id_zona" class="form-control">
+                                    {% for z in zonas %}
+                                        <option value="{{ z.id_zona }}">{{ z.nombre_zona }}</option>
+                                    {% endfor %}
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <button type="button" id="register_casillero" class="btn btn-default">Grabar</button>
+                                <button type="reset" id="limpiar" class="btn btn-default">Limpiar</button>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </section>
+    <!-- /.content -->
+
+{% endblock %}
+{% block appScript %}
+    <script src="views/app/js/plataforma/plataforma.js"></script>
+{% endblock %}

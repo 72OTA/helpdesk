@@ -1,0 +1,99 @@
+{% extends 'portal/portal' %}
+{% block appBody %}
+  <section class="content-header">
+    <h4>
+      <i class="fa fa-user"></i> DATOS DE EMPRESA
+    </h4>
+    <ol class="breadcrumb">
+      <li><a href="portal"><i class="fa fa-home"></i> Home </a></li>
+      <li class="active">Empresa</li>
+    </ol>
+  </section>
+  <section class="content">
+    <div class="row">
+      <form method="post" id="perfil">
+        <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 toppad" >
+          <div class="panel panel-info">
+            <div class="panel-heading">
+              <h3 class="panel-title"><i class='glyphicon glyphicon-cog'></i> Configuración</h3>
+            </div>
+            <div class="panel-body">
+              <div class="row">
+                <div class="col-md-3 col-lg-3 " align="center">
+                  <div id="load_img">
+                    <img class="img-responsive" src="views/app/images/{{ '%s%s%s'|format('logo','.',empresa_db.ext_logo) }}" alt="Logo">
+                  </div>
+                  <br/>
+                  <div class="row">
+                    <div class="col-md-12">
+                      <div class="form-group">
+                        <input class='filestyle' data-buttonText="Logo" type="file" name="imagefile" id="imagefile" onchange="document.getElementById('archivo').value=document.getElementById('imagefile').value" tabindex="-1" style="position:absolute; clip: rect(0px 0px 0px 0px);" accept="file_extension|image/*|media_type">
+                        <div class="bootstrap-filestyle input-group">
+                          <input type="text" class="form-control" id="archivo" placeholder="" disabled="">
+                          <span class="group-span-filestyle input-group-btn" tabindex="0">
+                            <label for="imagefile" class="btn btn-default "><span class="icon-span-filestyle glyphicon glyphicon-folder-open">
+                            </span>
+                            <span class="buttonText">Logo</span>
+                            </label>
+                          </span>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <div class=" col-md-9 col-lg-9 ">
+                  <table class="table table-condensed">
+                    <tbody>
+                      <tr>
+                        <td class='col-md-3'>* Nombre de la empresa:</td>
+                        <td><input type="text" class="form-control input-sm" name="nombre_empresa" id="nombre_empresa"  value="{{ empresa_db.nombre }}" ></td>
+                      </tr>
+                      <tr>
+                        <td>Teléfono:</td>
+                        <td><input type="text" class="form-control input-sm" name="telefono" id="telefono" value="{{ empresa_db.telefono }}" ></td>
+                      </tr>
+                      <tr>
+                        <td>Correo electrónico:</td>
+                        <td><input type="email" class="form-control input-sm" name="email" id="email" value="{{ empresa_db.email }}" ></td>
+                      </tr>
+                      <tr>
+                        <td>* IVA (%):</td>
+                        <td><input type="text" class="form-control input-sm"  name="impuesto" id="impuesto" value="{{ empresa_db.impuesto }}" placeholder="19"></td>
+                      </tr>
+                      <tr>
+                        <td>* Simbolo de moneda:</td>
+                        <td><input type="text" class="form-control input-sm"  name="tipo_moneda" id="tipo_moneda" value="{{ empresa_db.tipo_moneda }}" placeholder="$"></td>
+                      </tr>
+                      <tr>
+                        <td>* Dirección:</td>
+                        <td><input type="text" class="form-control input-sm" name="direccion" id="direccion" value="{{ empresa_db.direccion }}" ></td>
+                      </tr>
+                      <tr>
+                        <td>* Ciudad:</td>
+                        <td><input type="text" class="form-control input-sm" name="ciudad" id="ciudad" value="{{ empresa_db.ciudad }}" placeholder="Santiago"></td>
+                      </tr>
+                      <tr>
+                        <td>* Comuna:</td>
+                        <td><input type="text" class="form-control input-sm" name="comuna" id="comuna" value="{{ empresa_db.comuna }}" placeholder="Santiago"></td>
+                      </tr>
+                      <tr>
+                        <td>Región:</td>
+                        <td><input type="text" class="form-control input-sm" name="region" id="region" value="{{ empresa_db.region }}" placeholder="Metropolitana"></td>
+                      </tr>
+                    </tbody>
+                  </table>
+                </div>
+              </div>
+            </div>
+              <div class="panel-footer text-center">
+                <button type="button" id='update_empresa_btn' class="btn btn-sm btn-success" onclick="update_empresa();"><i class="glyphicon glyphicon-refresh"></i> Actualizar datos</button>
+              </div>
+          </div>
+        </div>
+      </form>
+    </div>
+  </section>
+  {% endblock %}
+  {% block appScript %}
+    <script src="views/app/js/administracion/administracion.js"></script>
+  {% endblock %}

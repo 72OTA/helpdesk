@@ -1,0 +1,45 @@
+# This file is part of the Ocrend Framewok 2 package.
+#
+# (c) Ocrend Software <info@ocrend.com>
+#
+# For the full copyright and license information, please view the LICENS
+# file that was distributed with this source code.
+
+# Conexión con la base de datos principal
+database:
+  host: localhost
+  user: root
+  pass:
+  name: helpdesk_nielsen
+  port: 1521
+  protocol: TCP
+  motor: mysql
+
+# Configuración de servidor SMTP
+phpmailer:
+  host: mail.rematefletes.com
+  user: jjara@rematefletes.com
+  pass: kr10770wys
+  SMTPSecure: tls
+  port: 25
+
+# Configuración de sesiones
+sessions:
+  unique: 1N4WYS2018
+  life_time: 21600
+
+# Variables del framework
+framework:
+  debug: false
+  version: 2.0.2
+
+# Configuración del sitio
+site:
+  name: HELPDESK NIELSEN
+  author: Jorge Jara H.
+  author_email: jjara@wys.cl
+  timezone: America/Santiago
+  url: http://localhost/helpdesk/
+  router:
+    path: localhost/helpdesk/
+    protocol: http

@@ -1,0 +1,78 @@
+{% extends 'portal/portal' %}
+{% block appBody %}
+  <section class="content-header">
+      <h4>
+        <i class="fa fa-user"></i> REGISTRO DE USUARIOS
+      </h4>
+      <ol class="breadcrumb">
+        <li><a href="portal"><i class="fa fa-home"></i> Home </a></li>
+        <li><a href="administracion/usuario"> Usuarios </a></li>
+        <li class="active"> agregar </li>
+      </ol>
+  </section>
+
+  <section class="content">
+    <div class="row">
+      <div class="col-md-12">
+        <div class="box box-primary">
+          <form id="register_user_form"  action="" method="POST">
+            <div class="box-body col-sm-2"></div>
+            <div class="box-body col-sm-4">
+              <div class="form-group">
+                <input class="form-control" name="name"        id="name"        type="text"     placeholder="Nombre Completo" required/>
+                <input class="form-control" name="email"       id="email"       type="email"    placeholder="E-Mail" required/>
+                <input class="form-control" name="cargo"       id="cargo"       type="text"    placeholder="Cargo" value='PROGRAMADOR' required/>
+                <input class="form-control" name="fono"       id="fono"       type="text"    placeholder="Fono" value='+56' required/>
+              </div>
+              <div class="form-group">
+                <input class="form-control" name="pass"        id="pass"        type="password" placeholder="Password" value='1' required/>
+                <input class="form-control" name="pass_repeat" id="pass_repeat" type="password" placeholder="Repita Password" value='1' required/>
+              </div>
+              <div class="form-group">Perfil Asignado
+                <select name='perfil' id='perfil' class='form-control'>
+                <option selected='selected'>--</option>
+                {% for p in db_perfiles if false != db_perfiles %}
+                <option value='{{ p.nombre }}'>{{ p.nombre }}</option>
+                {% endfor %}
+                <option value='DEFINIDO'>DEFINIDO</option>
+                </select>
+              </div>
+              <div class="form-group">Pagina de Inicio
+                <select name='pagina_inicio' id='pagina_inicio' class='form-control'>
+                  <option value='portal'>HOME</option>
+                  {% for m in db_menu if false != db_menu %}
+                    {% if m.url == db_users.pagin_inicio  %}
+                      <option value='{{ m.url }}' selected='selected'>{{ m.url }}</option>
+                    {% else %}
+                      <option value='{{ m.url }}'>{{ m.url }}</option>
+                    {% endif %}
+                  {% endfor %}
+                </select>
+              </div>
+              <div class="checkbox">
+                <label>
+                <input name="rol" type="checkbox" id="admin" /> Usuario Administrador?
+                </label>
+              </div>
+              <div class="form-group">
+                <button type="button" id="register" class="btn btn-default">Grabar</button>
+                <button type="reset" id="limpiar" class="btn btn-default">Limpiar</button>
+              </div>
+            </div>
+            <div class="box-body col-sm-4">
+              <div class="form-group">
+                <label class="col-sm-4  control-label">Rut Asocia Trabajador</label>
+                <div class="col-sm-5">
+                  <input class="form-control" name="rut_trabajador"        id="rut_trabajador"        type="text"     placeholder="xxxxxxxx s/digito"/>
+                </div>
+              </div>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+  </section>
+{% endblock %}
+{% block appScript %}
+    <script src="views/app/js/administracion/administracion.js"></script>
+{% endblock %}

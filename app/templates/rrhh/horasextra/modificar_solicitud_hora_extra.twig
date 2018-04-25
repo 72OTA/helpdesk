@@ -1,0 +1,123 @@
+{% extends 'portal/portal' %}
+{% block appStylos %}
+  <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+{% endblock %}
+{% block appBody %}
+  <section class="content-header">
+    <h4>
+      <i class="fa fa-user"></i>
+      MODIFICAR SOLICITUD DE HORAS EXTRA
+    </h4>
+    <ol class="breadcrumb">
+      <li>
+        <a href="portal">
+          <i class="fa fa-home"></i>
+          Home
+        </a>
+      </li>
+      <li>
+        <a href="rrhh/revisar_horas_extra">
+          Horas Extra
+        </a>
+      </li>
+      <li class="active">
+        Modificar la solicitud
+      </li>
+    </ol>
+  </section>
+  <section class="content-header">
+    <div class="tab-pane active" id="tab_1-1">
+      <b>Modificar la peticion</b>
+      <div id="bloque_registro"></div>
+      <div class="box box-info">
+        <div class="container">
+          <div class="row">
+            <div class="col-md-6" id="main">
+              <br>
+              <form name="form_modificar" id="form_modificar" action="" method="POST">
+                <div class="form-group">
+                  <input type="hidden" class="form-control" name="rut" id="rut">
+                  <label for="fecha_solicitud">Fecha:</label>
+                  <input type="date" class="form-control" name="fecha_solicitud" id="fecha_solicitud" value="{{  modifica_hx.fecha_solicitud  }}" required="required">
+                </div>
+                <div class="form-group">
+                  <label for="hora_desde">Desde:</label>
+                  <input type="time" class="form-control" name="hora_desde" id="hora_desde" value="{{ modifica_hx.hora_desde }}" required="required">
+                </div>
+                <div class="form-group">
+                  <label for="hora_hasta">Hasta:</label>
+                  <input type="time" class="form-control" name="hora_hasta" id="hora_hasta" value="{{ modifica_hx.hora_hasta }}" required="required">
+                </div>
+                <div class="form-group">
+                  <label for="motivo_solicitud">Motivo:</label>
+                  <input type="text" class="form-control" name="motivo_solicitud" id="motivo_solicitud" value="{{ modifica_hx.motivo_solicitud }}">
+                  <input type="hidden" class="form-control" name="id_enc_hx" id="id_enc_hx" value="{{ modifica_hx.id_enc_hx }}">
+                </div>
+                <center>
+                  <button class="btn btn-success" type="button" id="btn_modificar">
+                    <span>Modificar</span></button>
+                </center>
+              </form>
+            </div>
+            <div class="col-md-6">
+              <div class="box-body">
+                <h5>
+                  <strong>Usuarios</strong>
+                </h5>
+                <form id="form_buscar" name="form_buscar">
+                  <div class="form-group margin">
+                    <button class="btn btn-primary" style="position:absolute;display:inline-block;" type="button" id="btn_agregar_usuario" onmouseover="buscar_coincidencia()">
+                      <span>Agregar</span></button>
+                    <input type="text" class="form-control" style="padding-left:20%;" placeholder="Buscar usuario por nombre o RUT" name="busca" id="busca" onmouseover="buscar_coincidencia()">
+                  </div>
+                </form>
+                <table id="dataTables1" class="table table-bordered">
+                  <thead>
+                    <tr>
+                      <th>RUT</th>
+                      <th>OPCIONES</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {% set No = 1 %}
+                    {% for d in horas_extras %}
+                      {% if d.id_enc_hx == modifica_hx.id_enc_hx %}
+                        <tr>
+                          <td>{{ d.rut }}</td>
+                          <td class='center'>
+                            <a data-toggle='tooltip' data-placement='top' title='Eliminar' id="btn_eliminar_mod" onclick="eliminar_solicitud_mod({{  d.id_det  }})" class='btn btn-warning btn-sm'>
+                              <i class='glyphicon glyphicon-trash'></i>
+                            </a>
+                            <form class="" action="" name="form_id_mod" id="form_id_mod" method="post">
+                              <input type="hidden" id="id_hx_mod" name="id_hx_mod">
+                            </form>
+                          </td>
+                        </tr>
+                      {% endif %}
+                      {% set No = No + 1 %}
+                    {% endfor %}
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <br>
+      <br>
+      <hr>
+    </div>
+
+    <div id="bloque_registro"></div>
+  </div>
+</section>
+
+<!-- Main content -->
+<section class="content"></section>
+<!-- /.content -->
+
+{% endblock %}
+{% block appScript %}
+{% include 'rrhh/horasextra/datatables_opciones' %}
+{% endblock %}

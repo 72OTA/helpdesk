@@ -1,0 +1,108 @@
+{% extends 'portal/portal' %}
+{% block appStylos %}
+    <link rel="stylesheet" href="views/app/template/datatables/dataTables.bootstrap.css">
+    <style media="screen">
+        .at {
+            display: none;
+        }
+    </style>
+{% endblock %}
+{% block appBody %}
+    <section class="content-header">
+        <h1>
+            Redes
+            <small>OT Registrados por Ejecutivo</small>
+
+            <a class="btn btn-primary btn-social pull-right" href="redes/agregar" title="Agregar" data-toggle="tooltip">
+                <i class="fa fa-plus"></i>
+                Agregar Nueva OT
+            </a>
+        </h1>
+    </section>
+    <section class="content">
+        <div class="row">
+            <div class="col-md-12">
+                <div class="box box-primary">
+                    <div class="box-body">
+                        <table id="dataordenes" name="dataordenes" class="table table-bordered">
+                            <thead>
+                                <tr>
+                                    <th>No</th>
+                                    <th>N°Orden</th>
+                                    <th>Rut Cliente</th>
+                                    <th>Comuna</th>
+                                    <th>Nodo Cuadrante</th>
+                                    <th>Estatus Orden</th>
+                                    <th>¿Corresponde escalamiento?</th>
+                                    <th>Fecha</th>
+                                    <th>Funciones</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {% for key, t in redes if false != redes %}
+                                    <tr>
+                                        <td>{{ key + 1 }}</td>
+                                        <td>{{ t.n_orden }}</td>
+                                        <td>{{ t.rut_cliente }}</td>
+                                        <td>{{ t.comuna }}</td>
+                                        <td>{{ t.nodo_cuadrante }}</td>
+                                        <td>{{ t.estatus_orden }}</td>
+                                        {% if t.corresponde == 1 %}
+                                            <td class="text-center text-success">
+                                                <i class='glyphicon glyphicon-ok'></i>
+                                            </td>
+                                        {% else %}
+                                            <td class="text-center text-danger">
+                                                <i class='glyphicon glyphicon-remove'></i>
+                                            </td>
+                                        {% endif %}
+                                        <td>{{ t.fecha }}</td>
+                                        <td >
+                                            <a data-toggle='tooltip' data-placement='top' id="btnmodificar" name="btnmodificar" title='Modificar' class='btn btn-success btn-sm' href="redes/editar/{{t.id_redes}}">
+                                                <i class='glyphicon glyphicon-edit'></i>
+                                            </a>
+                                            <a data-toggle='tooltip' data-placement='top' id="visualizar" name="visualizar" title='Ver Observacion' class='btn btn-primary btn-sm' onclick="visualizar({{t.id_redes}});">
+                                                <i class='glyphicon glyphicon-eye-open'></i>
+                                            </a>
+                                            <a data-toggle='tooltip' data-placement='top' id="btneliminar" name="btneliminar" title='Eliminar' class='btn btn-danger btn-sm' onclick="eliminar({{t.id_redes}});">
+                                                <i class='glyphicon glyphicon-remove'></i>
+                                            </a>
+                                        </td>
+                                    </tr>
+                                {% endfor %}
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+{% endblock %}
+{% block appScript %}
+
+    <script src="views/app/template/datatables/jquery.dataTables.min.js" type="text/javascript"></script>
+    <script src="views/app/template/datatables/dataTables.bootstrap.min.js" type="text/javascript"></script>
+    <script src="views/app/js/redes/redes.js"></script>
+    <script>
+        $("#dataordenes").dataTable({
+            "language": {
+                "search": "Buscar:",
+                "zeroRecords": "No hay datos para mostrar",
+                "info": "Mostrando _END_ Registros, de un total de _TOTAL_ ",
+                "loadingRecords": "Cargando...",
+                "processing": "Procesando...",
+                "infoEmpty": "No hay entradas para mostrar",
+                "lengthMenu": "Mostrar _MENU_ Filas",
+                "paginate": {
+                    "first": "Primera",
+                    "last": "Ultima",
+                    "next": "Siguiente",
+                    "previous": "Anterior"
+                }
+            },
+            "autoWidth": true,
+            "scrollX": true,
+            "bSort": false
+        });
+    </script>
+{% endblock %}

@@ -1,0 +1,98 @@
+{% extends 'portal/portal' %}
+{% block appBody %}
+
+    <section class="content-header">
+        <h1>
+            AVAR
+            <small>PROCESO AVAR DISTRIBUCIÓN</small>
+        </h1>
+        <ol class="breadcrumb">
+            <li>
+                <a href="#">
+                    <i class="fa fa-home"></i>
+                    Home</a>
+            </li>
+            <li class="active">Cargar Pendiente de blindaje</li>
+        </ol>
+    </section>
+
+    <section class="content">
+        <div class="row">
+            <div class="col-md-12">
+                <div class="form-group">
+                    <div class="box">
+                        <div class="box-body">
+                            <div class="nav-tabs-custom">
+                                <ul class="nav nav-tabs pull-rigth">
+                                    <li class="active">
+                                        <a href="#tab_1-1" data-toggle="tab">NIVEL 1 - AVAR REACTIVO DIA</a>
+                                    </li>
+                                    <li>
+                                        <a href="#tab_2-2" data-toggle="tab">NIVEL 2 - AVAR REACTIVO ESCALAMIENTO</a>
+                                    </li>
+                                    <li>
+                                        <a href="#tab_3-3" data-toggle="tab">NIVEL 3 - AVAR REACTIVO REDES</a>
+                                    </li>
+                                    <li>
+                                        <a href="#tab_4-4" data-toggle="tab">NIVEL 4 - AVAR PROACTIVO</a>
+                                    </li>
+                                    <li class="pull-left header"></li>
+                                </ul>
+                                <div class="tab-content">
+                                    <div class="tab-pane active" id="tab_1-1">
+                                        <div class="col-md-4">
+                                            <h4>Seleccione Bloque</h4>
+                                            <select name="bloqueAvR" id="bloqueAvR" class="form-control">
+                                                <option value="--" selected="selected">--</option>
+                                                {% for b in bloque if false != bloque %}
+                                                    <option value="{{b.id_bloque}}">{{ b.bloque }}</option>
+                                                {% endfor %}
+                                            </select>
+                                        </div>
+                                        <div id="listar_bloque_ejecutivo" class="col-md-6 table-responsive"></div>
+
+                                    </div>
+                                    <div class="tab-pane" id="tab_2-2">
+                                        <div class="col-md-4">
+                                            <h4>Seleccione Comuna</h4>
+                                            <select name="comunaAv2" id="comunaAv2" class="form-control">
+                                                <option value="--" selected="selected">--</option>
+                                                {% for c in comunas if false != comunas %}
+                                                    <option value="{{c.id_comuna}}">{{ c.descripcion }}</option>
+                                                {% endfor %}
+                                            </select>
+                                        </div>
+                                    </div>
+                                    <div class="tab-pane" id="tab_3-3">
+                                        <div class="col-md-4">
+                                            <h4>Seleccione Comuna</h4>
+                                            <select name="comunaAv3" id="comunaAv3" class="form-control">
+                                                <option value="--">--</option>
+                                                <option value="TODAS">TODAS</option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                    <div class="tab-pane" id="tab_4-4">
+                                        <div class="col-md-4">
+                                            <h4>Seleccione Comuna</h4>
+                                            <select name="comunaAv4" id="comunaAv4" class="form-control">
+                                                <option value="--" selected="selected">--</option>
+                                                {% for c in comunas if false != comunas %}
+                                                    <option value="{{c.id_comuna}}">{{ c.descripcion }}</option>
+                                                {% endfor %}
+                                            </select>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+{% endblock %}
+{% block appScript %}
+    <script src="views/app/js/avar/avar.js"></script>
+{% endblock %}

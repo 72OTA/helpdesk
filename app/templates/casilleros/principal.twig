@@ -1,0 +1,125 @@
+{% extends 'portal/portal' %}
+{% block appBody %}
+    <section class="content-header">
+        <h1>
+            Casilleros
+            <small>Principal</small>
+        </h1>
+        <ol class="breadcrumb">
+            <li>
+                <a href="#">
+                    <i class="fa fa-home"></i>
+                    Home</a>
+            </li>
+            <li class="active">Dashboard</li>
+        </ol>
+    </section>
+
+    <!-- Main content -->
+    <section class="content">
+        <div class="row">
+            <div class="col-lg-12">
+                <div class="col-lg-3">
+                    <div style="background-color:#00c0ef;color:#fff" class="small-box">
+                        <div class="inner">
+                            <h3 class="text-center">
+                                {{casilleroQ[0][0]}}
+                                Casilleros</h3>
+                            <p>
+                                Registrados Hoy</p>
+                        </div>
+                        <div class="icon">
+                            <i class="fa fa-headphones"></i>
+                        </div>
+                        <!-- <a href="administracion/usuario" class="small-box-footer" title="Ver Ordenes" data-toggle="tooltip"><i class="fa fa-eye"></i></a> -->
+                    </div>
+                </div>
+                <div class="col-lg-3">
+                    <div style="background-color:#00a65a;color:#fff" class="small-box">
+                        <div class="inner">
+                            <h3>
+                                Descargar Excell</h3>
+                            <p>Resumen Casilleros</p>
+                        </div>
+                        <div class="icon">
+                            <i class="fa fa-check-square"></i>
+                        </div>
+                        <a href="casilleros/excell" class="small-box-footer" title="Ver Ordenes" data-toggle="tooltip">
+                            <i class="fa fa-download"></i>
+                        </a>
+                    </div>
+                </div>
+                <div class="col-lg-3">
+                    <div style="background-color:#f39c12;color:#fff" class="small-box">
+                        <div class="inner">
+                            <h3>Agregar</h3>
+                            <p>Nuevo Casillero</p>
+                        </div>
+                        <div class="icon">
+                            <i class="fa fa-plus"></i>
+                        </div>
+                        <a href="casilleros/agregar" class="small-box-footer" title="Agregar" data-toggle="tooltip">
+                            <i class="fa fa-plus"></i>
+                        </a>
+                    </div>
+                </div>
+                <!-- ./col -->
+                <div class="col-lg-3">
+                    <div style="background-color:#00a65a;color:#fff" class="small-box">
+                        <div class="inner">
+                            <h3>Listar</h3>
+                            <p>Casilleros</p>
+                        </div>
+                        <div class="icon">
+                            <i class="fa fa-eye"></i>
+                        </div>
+                        <a href="casilleros/listar_casilleros" class="small-box-footer" title="Agregar" data-toggle="tooltip">
+                            <i class="fa fa-eye"></i>
+                        </a>
+                    </div>
+                </div>
+                <!-- ./col -->
+            </div>
+            <!-- ./col -->
+            <!-- Resumen TOP 10 -->
+            <div class="col-lg-12">
+                <div class="box">
+                    <div class="box-header">
+                        <h3 class="box-title">Gestión Casilleros Hoy
+                        </h3>
+                    </div>
+                    <div class="box-body">
+                        <table class="table table-bordered">
+                            <thead>
+                                <tr >
+                                    <th scope="col" class="text-center">Zonas</th>
+                                    <th scope="col" class="text-center">Ejecutivo</th>
+                                    <th scope="col">Casillero</th>
+                                    <th scope="col">Ordenes</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {% for z in zona %}
+                                    <th class="text-center" rowspan="4" style="vertical-align: middle;">{{ z.nombre_zona }}</th>
+                                    <td class="text-center" rowspan="4" style="vertical-align: middle;">EJECUTIVO</td>
+                                    {% for o in ordenes %}
+                                        <tr>
+                                            <td>{{ o }}</td>
+                                        </tr>
+                                    {% endfor %}
+                                {% endfor %}
+                                <tr>
+                                    <td colspan="2">TOTAL:</td>
+                                    <td>{{casilleroQ[0][0]}}</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </section>
+    <!-- /.content -->
+
+{% endblock %}

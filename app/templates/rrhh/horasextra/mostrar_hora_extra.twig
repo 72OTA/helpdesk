@@ -1,0 +1,32 @@
+<div id="modal_responder_solicitud" class="modal fade" role="dialog">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal">&times;</button>
+        <h4 class="modal-title">Responder solicitud de horas extra</h4>
+      </div>
+      <div class="modal-body">
+        <form name="form_respuesta" id="form_respuesta" action="" method="POST">
+          <center>
+            <div class="form-group">
+              <label for="motivo">Motivo de respuesta:</label>
+              <input type="text" class="form-control" name="motivo_respuesta" id="motivo_respuesta">
+              <input type="hidden" class="form-control" value="{{ id.id }}" name="id_respuesta" id="id_respuesta">
+            </div>
+            <button class="btn btn-success" type="button" id="btn_aprobar">
+              <span>Aprobar</span></button>
+            <button class="btn btn-danger" type="button" id="btn_rechazar">
+              <span>Rechazar</span></button>
+          </center>
+          <br>
+          <!-- <table class="table table-bordered"> <thead> <tr> <th>RUT</th> </tr> </thead> <tbody> {% set No = 1 %} {% for d in horas_extras %} <tr> <td>{{ d.rut }}</td> <td class='center'> <form class="" action="" name="form_id_mod" id="form_id_mod"
+          method="post"> <input type="hidden" id="id_hx_mod" name="id_hx_mod"> </form> </td> </tr> {% set No = No + 1 %} {% endfor %} </tr> </tbody> </table> -->
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
+
+{% block appScript %}
+  <script src="views/app/js/rrhh/horasextra.js"></script>
+{% endblock %}

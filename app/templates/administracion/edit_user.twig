@@ -1,0 +1,124 @@
+{% extends 'portal/portal' %}
+{% block appBody %}
+    <section class="content-header">
+        <h4>
+            <i class="fa fa-user"></i>
+            EDITAR USUARIO
+        </h4>
+        <ol class="breadcrumb">
+            <li>
+                <a href="portal">
+                    <i class="fa fa-home"></i>
+                    Home
+                </a>
+            </li>
+            <li>
+                <a href="administracion/usuario">
+                    Usuarios
+                </a>
+            </li>
+            <li class="active">
+                editar
+            </li>
+        </ol>
+    </section>
+
+    <section class="content">
+        <div class="row">
+            <div class="col-md-12">
+                <div class="box box-primary">
+                    <form id="update_user_form" action="" method="POST">
+                        <input type='hidden' name='id_user' id='id_user' value='{{ db_users.id_user }}'/>
+                        <div class="box-body col-sm-2"></div>
+                        <div class="box-body col-sm-4">
+                            <div class="form-group">
+                                <input class="form-control" name="name" id="name" type="text" placeholder="Nombre Completo" value='{{ db_users.name|raw|upper }}'/>
+                                <input class="form-control" name="email" id="email" type="email" placeholder="E-Mail" value='{{ db_users.email }}' readonly="readonly"/>
+                                <input class="form-control" name="cargo" id="cargo" type="text" placeholder="cargo" value='{{ db_users.cargo }}'/>
+                                <input class="form-control" name="fono" id="fono" type="text" placeholder="Fono" value='{{ db_users.fono }}'/>
+                            </div>
+                            <div class="form-group">Perfil Asignado
+                                <select name='perfil' id='perfil' class='form-control'>
+                                    <option>--</option>
+                                    {% for p in db_perfiles if false != db_perfiles %}
+                                        {% if p.nombre == db_users.perfil %}
+                                            <option value='{{ p.nombre }}' selected='selected'>{{ p.nombre }}</option>
+                                        {% else %}
+                                            <option value='{{ p.nombre }}'>{{ p.nombre }}</option>
+                                        {% endif %}
+                                    {% endfor %}
+                                    {% if 'DEFINIDO' == db_users.perfil %}
+                                        <option value='DEFINIDO' selected='selected'>DEFINIDO</option>
+                                    {% else %}
+                                        <option value='DEFINIDO'>DEFINIDO</option>
+                                    {% endif %}
+                                </select>
+                            </div>
+                            <div class="form-group">Pagina de Inicio
+                                <select name='pagina_inicio' id='pagina_inicio' class='form-control'>
+                                    {% if 'portal' == db_users.pagina_inicio %}
+                                        <option value='portal' selected='selected'>HOME</option>
+                                    {% else %}
+                                        <option value='portal'>HOME</option>
+                                    {% endif %}
+                                    {% for m in db_menu if false != db_menu %}
+                                        {% if m.url == db_users.pagina_inicio %}
+                                            <option value='{{ m.url }}' selected='selected'>{{ m.url|upper }}</option>
+                                        {% else %}
+                                            <option value='{{ m.url }}'>{{ m.url|upper }}</option>
+                                        {% endif %}
+
+                                    {% endfor %}
+                                </select>
+                            </div>
+                            <div class="checkbox">
+                                <label>
+                                    {% if 0 == db_users.rol %}
+                                        <input name="rol" type="checkbox" id="rol"/>
+                                    {% else %}
+                                        <input name="rol" type="checkbox" id="rol" checked="checked"/>
+                                    {% endif %}
+                                    Usuario Administrador?
+
+                                </label>
+                            </div>
+                            <div class="panel-footer text-center">
+                                <button type="button" id='update_user' class="btn btn-sm btn-success">
+                                    <i class="glyphicon glyphicon-refresh"></i>
+                                    Actualizar datos</button>
+                            </div>
+                        </div>
+                        <div class="box-body col-sm-4">
+                            <div class="row">
+                                <div class="form-group">
+                                    <label class="col-sm-2 control-label">Foto</label>
+                                    <div class="col-sm-5">
+                                        <input type="file" name="foto" id="foto">
+                                        <br/>
+                                        {% if db_users.foto == 1 %}
+                                            <img style="border:1px solid #eaeaea;border-radius:5px;" src="views/app/images/avatares/{{ db_users.name_foto }}" width="128">
+                                        {% else %}
+                                            <img style="border:1px solid #eaeaea;border-radius:5px;" src="//ssl.gstatic.com/accounts/ui/avatar_2x.png" width="128">
+                                        {% endif %}
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <div class="row">
+                                    <br/>
+                                    <label class="col-sm-4  control-label">Rut Asocia Trabajador</label>
+                                    <div class="col-sm-5">
+                                        <input class="form-control" name="rut_trabajador" id="rut_trabajador" type="text" placeholder="xxxxxxxx s/digito" value='{{ db_users.rut_personal }}'/>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </section>
+{% endblock %}
+{% block appScript %}
+    <script src="views/app/js/administracion/administracion.js"></script>
+{% endblock %}

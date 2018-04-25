@@ -1,0 +1,114 @@
+{% extends 'portal/portal' %}
+{% block appBody %}
+  <section class="content-header">
+      <h4>
+        <i class="fa fa-user"></i> ADMINISTRACION
+      </h4>
+      <ol class="breadcrumb">
+        <li><a href="portal"><i class="fa fa-home"></i> Home </a></li>
+        <li class="active">Dashboard</li>
+      </ol>
+  </section>
+  <section class="content">
+    <!-- Small boxes (Stat box) -->
+    <div class="row">
+      <div class="col-lg-3">
+        <div style="background-color:#00c0ef;color:#fff" class="small-box">
+          <div class="inner">
+            <h3>{{ q_users }}</h3>
+            <p>Usuarios</p>
+          </div>
+          <div class="icon">
+            <i class="fa fa-user"></i>
+          </div>
+            <a href="administracion/usuario" class="small-box-footer" title="Ver Usuarios" data-toggle="tooltip"><i class="fa fa-eye"></i></a>
+        </div>
+      </div><!-- ./col -->
+      <div class="col-lg-3">
+        <div style="background-color:#00a65a;color:#fff" class="small-box">
+          <div class="inner">
+            <h3>{{ q_perfiles }}</h3>
+            <p>Perfiles</p>
+          </div>
+          <div class="icon">
+            <i class="fa fa-pencil-square-o"></i>
+          </div>
+            <a href="administracion/perfiles" class="small-box-footer" title="Ver Perfiles" data-toggle="tooltip"><i class="fa fa-eye"></i></a>
+        </div>
+      </div><!-- ./col -->
+      <div class="col-lg-3">
+        <div style="background-color:#f39c12;color:#fff" class="small-box">
+          <div class="inner">
+            <h3>Agregar</h3>
+            <p>Nuevo Usuario</p>
+          </div>
+          <div class="icon">
+            <i class="fa fa-plus"></i>
+          </div>
+            <a href="administracion/registro_user" class="small-box-footer" title="Agregar" data-toggle="tooltip"><i class="fa fa-plus"></i></a>
+        </div>
+      </div><!-- ./col -->
+      <div class="col-lg-3">
+        <div style="background-color:#00a65a;color:#fff" class="small-box">
+          <div class="inner">
+            <h3>{{ q_users_online }}</h3>
+            <p>Usuario On-line</p>
+          </div>
+          <div class="icon">
+            <i class="fa fa-eye"></i>
+          </div>
+          <a href="#" class="small-box-footer" title="" data-toggle="tooltip"><i class="fa fa-eye"></i></a>
+        </div>
+      </div><!-- ./col -->
+    </div>
+    <div class="row">
+      <div class="col-lg-5">
+        <p><strong>Últimos Usuarios Registrados</strong></p>
+        <table class="table table-bordered">
+          <thead>
+            <th>No</th>
+            <th>Nombre</th>
+            <th>E-Mail</th>
+          </thead>
+          <tbody>
+            {% set No = 1 %}
+            {% for d in last_user if false != last_user %}
+              <tr>
+                <td>{{ No }}</td>
+                <td>{{ d.name|raw|title }}</td>
+                <td>{{ d.email }}</td>
+              </tr>
+              {% set No =  No + 1 %}
+            {% endfor %}
+          </tbody>
+        </table>
+      </div>
+      <div class="col-lg-6">
+        <p><strong>Usuarios On-line</strong></p>
+        <table class="table table-bordered">
+          <thead>
+            <th>No</th>
+            <th>Nombre</th>
+            <th>E-Mail</th>
+            <th>perfil</th>
+          </thead>
+          <tbody>
+            {% set No = 1 %}
+            {% for d in db_user_online if false != db_user_online %}
+              <tr>
+                <td>{{ No }}</td>
+                <td>{{ d.name|raw|title }}</td>
+                <td>{{ d.email }}</td>
+                <td>{{ d.perfil }}</td>
+              </tr>
+              {% set No =  No + 1 %}
+            {% endfor %}
+          </tbody>
+        </table>
+      </div>
+    </row>
+  </section>
+{% endblock %}
+{% block appScript %}
+    <script src="views/app/js/administracion/administracion.js"></script>
+{% endblock %}

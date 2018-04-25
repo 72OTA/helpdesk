@@ -1,0 +1,52 @@
+{% extends 'portal/portal' %}
+{% block appStylos %}
+{% endblock %}
+{% block appBody %}
+    <section class="content-header">
+        <h1>
+            Confirmación
+            <small>Agregar Cuadrante</small>
+        </h1>
+        <ol class="breadcrumb">
+        <li><a href="#"><i class="fa fa-home"></i> Home</a></li>
+        <li><a href="confirmacion/mantenedores_crud_masters">Mantenedores</a></li>
+        <li><a href="confirmacion/listar_cuadrante">Listado de Cuadrantes</a></li>
+        <li class="active">Nuevo Cuadrante</li>
+        </ol>
+    </section>
+
+    <!-- Main content -->
+    <section class="content">
+      <div class="row">
+        <div class="col-md-12">
+          <div class="box box-primary">
+            <form id="register_cuadrante_form"  action="" method="POST">
+              <div class="box-body col-sm-4"></div>
+              <div class="box-body col-sm-4">
+                <div class="form-group">
+                  <input class="form-control" name="nombre_cuadrante" id="nombre_cuadrante" type="text" placeholder="Nombre del cuadrante" required/>
+                  <input class="form-control" name="nodo" id="nodo" type="number" min='1' placeholder="nodo" required/>
+                  <select class="form-control" name="comuna" id="comuna">
+                    {% for d in comuna if false != comuna %}
+                        {% if d.estado == 1 %}
+                            <option value="{{d.nombre}}">{{d.nombre}}</option>
+                        {% endif %}
+                    {% endfor %}
+                  </select>
+                </div>
+                <div class="form-group">
+                  <button type="button" id="register_cuadrante" class="btn btn-default">Grabar</button>
+                  <button type="reset" id="limpiar" class="btn btn-default">Limpiar</button>
+                </div>
+              </div>
+            </form>
+          </div>
+        </div>
+      </div>
+    </section>
+    <!-- /.content -->
+
+{% endblock %}
+{% block appScript %}
+    <script src="views/app/js/confirmacion/confirmacion.js"></script>
+{% endblock %}

@@ -1,0 +1,75 @@
+{% extends 'portal/portal' %}
+
+{% block appBody %}
+<section class="content-header">
+    <h1>
+        Confirmación
+        <small>Importar Pendiente Diario</small>
+    </h1>
+    <ol class="breadcrumb">
+    <li><a href="#"><i class="fa fa-home"></i> Home</a></li>
+    <li class="active">Importar Pendiente Diario</li>
+    </ol>
+</section>
+
+<section class="content">
+    <div class="row">
+        <div class="col-md-12">
+            <div class="box box-primary">
+                <div class="box-body col-sm-6">
+                    <div class="form-group">
+                        <form id="formturnos" name="formturnos" method="post" enctype="multipart/form-data">
+                            Fecha Importación: <input type="date" id="fecha_carga" name="fecha_carga"  value='{{ "now"|date("Y-m-d") }}' class="form-group">
+                            <input class='filestyle' data-buttonText="Logo" type="file" name="imagefile" id="imagefile" onchange="document.getElementById('archivo').value=document.getElementById('imagefile').value" tabindex="-1" style="position:absolute; clip: rect(0px 0px 0px 0px);" accept="file_extension|image/*|media_type">
+                            <div class="bootstrap-filestyle input-group">
+                                <input type="text" class="form-control" id="archivo" placeholder="" disabled="">
+                                <span class="group-span-filestyle input-group-btn" tabindex="0">
+                                    <label for="imagefile" class="btn btn-default ">
+                                    <span class="icon-span-filestyle glyphicon glyphicon-share"></span>
+                                    <span class="buttonText">Buscar Archivo</span>
+                                    </label>
+                                </span>
+                            </div>
+                            <div id="div_cargando">
+                                <a class="btn btn-success btn-social" title="Exportar a Excel" data-toggle="tooltip" onclick="subirarchivoexcel()">
+                                    <i class="fa fa-arrow-up"></i> Cargar Archivo
+                                </a>
+                            </div>
+                        </form>
+                    </div>
+                    <p><strong>Ultimos 5 archivos cargados</strong></p>
+                    <table class="table table-bordered">
+                      <thead>
+                        <th>No</th>
+                        <th>Fecha y hora</th>
+                        <th>Nombre de Archivo</th>
+                      </thead>
+                      <tbody>
+                        {% set No = 1 %}
+                        {% for d in db_archivos if false != db_archivos %}
+                          <tr>
+                            <td>{{ No }}</td>
+                            <td>{{ d.fecha_hora }}</td>
+                            <td>{{ d.nombre_archivo }}</td>
+                          </tr>
+                          {% set No =  No + 1 %}
+                        {% endfor %}
+                      </tbody>
+                    </table>
+                </div>
+                <div class="box-body col-sm-6">
+                    <span><b>Formato de Archivo</b>
+                    <p>Col A -> Rut</p>
+                    <p>Col B -> Nombre</p>
+                    <p>Col C -> Codigo Tango</p>
+                    </span>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+{% endblock %}
+
+{% block appScript %}
+    <script src="views/app/js/confirmacion/confirmacion.js"></script>
+{% endblock %}

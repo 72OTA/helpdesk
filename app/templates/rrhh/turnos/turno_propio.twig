@@ -1,0 +1,114 @@
+{% extends 'portal/portal' %}
+{% block appStylos %}
+  <link rel="stylesheet" href="views/app/template/datatables/dataTables.bootstrap.css">
+  <style>
+      .rojo{color: red;}
+      i {-webkit-transition: all 0.5s;
+      -o-transition: all 0.5s;
+      transition: all 0.5s;}
+  </style>
+{% endblock %}
+{% block appBody %}
+    <section class="content-header">
+        <h1>
+            RRHH
+            <small>Turnos Asignado - Supervisor designado: {{ super[0][0] }}</small>
+        </h1>
+        <ol class="breadcrumb">
+            <li><a href="#"><i class="fa fa-home"></i> Home</a></li>
+            <li class="active">Turnos Propios</li>
+        </ol>
+    </section>
+
+    <section class="content">
+        <div class="row">
+            {% for d in fechas_db if false != fechas_db %}
+                <div class="col-lg-3">
+                    <div style="background-color:#00c0ef;color:#fff" class="small-box">
+                        <div class="inner">
+                            <h3>{{ d.mesano_print }} </h3>
+                            <p></p>
+                        </div>
+                        <div class="icon">
+                            <i class="fa fa-envelope"></i>
+                        </div>
+                        <a class="small-box-footer"  title="Revisar proceso del mes" data-toggle="tooltip" onclick="verturnomes('{{ owner_user['rut_personal'] }}','{{d.mesano}}')">
+                        {% if "now"|date("m") == d.mes %}
+                            <i class="fa fa-eye rojo" id="{{ d.mesano }}" ></i>
+                        {% else %}
+                            <i class="fa fa-eye" id="{{ d.mesano }}"></i>
+                        {% endif %}
+                        </a>
+                    </div>
+                </div><!-- ./col -->
+            {% endfor %}
+        </div>
+        <div class="row">
+        <div class="col-md-12">
+            <div class="box">
+                <div class="box-body" id="camdat" name="camdat">
+                    <table id="dataTables4" class="table table-bordered" >
+                        <thead>
+                            <th Width="40">N°Semana</th>
+                            <th Width="200">Servicio</th>
+                            <th Width="150">Fecha</th>
+                            <th>Hora Ingreso</th>
+                            <th>Hora Salida</th>
+                            <th>Hora Turnos</th>
+                            <th>Min Colación</th>
+                            <th>Horario Colacion</th>
+                            <th>Break_1</th>
+                            <th>Break_2</th>
+                        </thead>
+                        <tbody id="dtturnos">
+                            {% set No = 1 %}
+                            {% for ct in carga_turno if false != carga_turno %}
+                                <tr>
+                                    <td>{{ ct.n_semana }}</td>
+                                    <td Width="200">{{ ct.servicio }}</td>
+                                    <td>{{ ct.fecha }}</td>
+                                    <td>{{ ct.hora_ingreso  }}</td>
+                                    <td>{{ ct.hora_salida }}</td>
+                                    <td>{{ ct.hora_turnos }}</td>
+                                    <td>{{ ct.tiempocolacion }}</td>
+                                    <td>{{ ct.horario_colacion }}</td>
+                                    <td>{{ ct.break_1 }}</td>
+                                    <td>{{ ct.break_2 }}</td>
+                                </tr>
+                                {% set No =  No + 1 %}
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+        </div>
+    </section>
+{% endblock %}
+{% block appScript %}
+    <script src="views/app/template/datatables/jquery.dataTables.min.js" type="text/javascript"></script>
+    <script src="views/app/template/datatables/dataTables.bootstrap.min.js" type="text/javascript"></script>
+    <script src="views/app/js/rrhh/turnos.js"></script>
+    <script>
+        $("#dataTables4").dataTable({
+             "language": {
+                 "search": "Buscar:",
+                 "zeroRecords": "No hay datos para mostrar",
+                 "info":"Mostrando _END_ usuarios, de un total de _TOTAL_ ",
+                 "loadingRecords": "Cargando...",
+                 "processing":"Procesando...",
+                 "infoEmpty":"No hay entradas para mostrar",
+                 "lengthMenu": "Mostrar _MENU_ Filas",
+                 "paginate":{
+                     "first":"Primera",
+                     "last":"Ultima",
+                     "next":"Siguiente",
+                     "previous":"Anterior"
+                 }
+            },
+             "scrollX": true,
+             "lengthMenu": [[10, 35, 50, -1], [10, 35, 50, "Todos"]],
+             "iDisplayLength": 35
+         });
+    </script>
+{% endblock %}

@@ -1,0 +1,85 @@
+{% extends 'portal/portal' %}
+
+{% block appBody %}
+<section class="content-header">
+    <h1>
+        RRHH
+        <small>Carga de Turnos</small>
+    </h1>
+    <ol class="breadcrumb">
+    <li><a href="#"><i class="fa fa-home"></i> Home</a></li>
+    <li class="active">Cargar Turnos</li>
+    </ol>
+</section>
+
+<section class="content">
+    <div class="row">
+        <div class="col-md-12">
+            <div class="box box-primary">
+                <div class="box-body col-sm-6">
+                    <div class="form-group">
+                        <form id="formturnos" name="formturnos" method="post" enctype="multipart/form-data">
+                            <input class='filestyle' data-buttonText="Logo" type="file" name="imagefile" id="imagefile" onchange="document.getElementById('archivo').value=document.getElementById('imagefile').value" tabindex="-1" style="position:absolute; clip: rect(0px 0px 0px 0px);" accept="file_extension|image/*|media_type">
+                            <div class="bootstrap-filestyle input-group">
+                                <input type="text" class="form-control" id="archivo" placeholder="" disabled="">
+                                <span class="group-span-filestyle input-group-btn" tabindex="0">
+                                    <label for="imagefile" class="btn btn-default ">
+                                    <span class="icon-span-filestyle glyphicon glyphicon-share"></span>
+                                    <span class="buttonText">Buscar Archivo</span>
+                                    </label>
+                                </span>
+                            </div>
+                            <div id="div_cargando">
+                                <a class="btn btn-success btn-social" title="Exportar a Excel" data-toggle="tooltip" onclick="subirarchivoexcel()">
+                                    <i class="fa fa-arrow-up"></i> Cargar Turnos
+                                </a>
+                            </div>
+                        </form>
+                    </div>
+
+                    <p><strong>Ultimos 5 archivos cargados</strong></p>
+                    <table class="table table-bordered">
+                      <thead>
+                        <th>No</th>
+                        <th>Fecha y hora</th>
+                        <th>Nombre de Archivo</th>
+                        <th>Usuario</th>
+                      </thead>
+                      <tbody>
+                        {% set No = 1 %}
+                        {% for d in db_archivos if false != db_archivos %}
+                          <tr>
+                            <td>{{ No }}</td>
+                            <td>{{ d.fecha_hora }}</td>
+                            <td>{{ d.nombre_archivo }}</td>
+                            <td>{{ d.name }}</td>
+                          </tr>
+                          {% set No =  No + 1 %}
+                        {% endfor %}
+                      </tbody>
+                    </table>
+
+                </div>
+                <div class="box-body col-sm-6">
+                    <span><b>Formato de Archivo</b>
+                    <p>Col A -> Rut</p>
+                    <p>Col B -> Servicio</p>
+                    <p>Col C -> Fecha</p>
+                    <p>Col D -> Hora de Ingreso</p>
+                    <p>Col E -> Hora de Salida</p>
+                    <p>Col F -> Número de Semana</p>
+                    <p>Col G -> Horas Turno</p>
+                    <p>Col H -> Duracion Colacion</p>
+                    <p>Col I -> Horario Colacion</p>
+                    <p>Col J -> Hora Break 1</p>
+                    <p>Col K -> Hora Break 2</p>
+                    </span>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+{% endblock %}
+{% block appScript %}
+    <script src="views/app/js/rrhh/turnos.js"></script>
+{% endblock %}

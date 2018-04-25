@@ -1,0 +1,52 @@
+{% extends 'portal/portal' %}
+{% block appStylos %}
+{% endblock %}
+{% block appBody %}
+    <section class="content-header">
+        <h1>
+            Confirmación
+            <small>Editar Comuna</small>
+        </h1>
+        <ol class="breadcrumb">
+        <li><a href="#"><i class="fa fa-home"></i> Home</a></li>
+        <li><a href="confirmacion/mantenedores_crud_masters">Mantenedores</a></li>
+        <li><a href="confirmacion/listar_comunas">Listado de Comunas</a></li>
+        <li class="active">Editar Comuna</li>
+        </ol>
+    </section>
+
+    <!-- Main content -->
+    <section class="content">
+      <div class="row">
+        <div class="col-md-12">
+          <div class="box box-primary">
+            <form id="editar_comuna_form"  action="" method="POST">
+              <div class="box-body col-sm-4"></div>
+              <div class="box-body col-sm-4">
+                <input type='hidden' name='id_comuna' id='id_comuna' value='{{ db_comuna.id_comuna }}' />
+                <div class="form-group">
+                    <input class="form-control" name="comuna" id="comuna" type="text" placeholder="Nombre de la comuna" value='{{ db_comuna.nombre }}' required/>
+                    <br>
+                    <input class="form-control" name="zona" id="zona" type="text" placeholder="Ingrese Zona ej:ZMET" value='{{ db_comuna.zona }}' required/>
+                    <br>
+                    <input class="form-control" name="cod_sub_zona" id="cod_sub_zona" type="text" placeholder="Ingrese subzona ej:ZMNOR" value='{{ db_comuna.cod_sub_zona }}' required/>
+                    <br>
+                    <input class="form-control" name="territorio" id="territorio" type="text" placeholder="Ingrese Territorio" value='{{ db_comuna.territorio }}' required/>
+                    <br>
+                    <input class="form-control" name="requerido" id="requerido" type="number" placeholder="Requerido" value='{{ db_comuna.requerido }}' required/>
+                </div>
+                <div class="panel-footer text-center">
+                  <button type="button" id="update_comuna" class="btn btn-default">Grabar</button>
+                </div>
+              </div>
+            </form>
+          </div>
+        </div>
+      </div>
+    </section>
+    <!-- /.content -->
+
+{% endblock %}
+{% block appScript %}
+    <script src="views/app/js/confirmacion/confirmacion.js"></script>
+{% endblock %}

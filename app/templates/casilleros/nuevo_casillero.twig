@@ -1,0 +1,86 @@
+{% extends 'portal/portal' %}
+{% block appBody %}
+    <section class="content-header">
+        <h1>
+            Casilleros
+            <small>Casillero A Registrar</small>
+        </h1>
+        <ol class="breadcrumb">
+            <li>
+                <a href="#">
+                    <i class="fa fa-home"></i>
+                    Home</a>
+            </li>
+            <li>
+                <a href="casilleros/listar_casilleros">Listado de Casilleros</a>
+            </li>
+            <li class="active">Agregar Casillero</li>
+        </ol>
+    </section>
+    <!-- Main content -->
+    <section class="content">
+        <form id="form_casillero" name="form_casillero">
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="box">
+                        <div class="box-header">
+                            <h3 class="box-title">Agregar Casillero</h3>
+                        </div>
+                        <div class="box-body">
+                            <div class="col-md-6">
+                                <label>Numero de Orden:</label><input type="number" name="nOrden" id="nOrden" class="form-control">
+                            </div>
+                            <div class="col-md-6">
+                                <label>RUT:</label><input type="text" name="rut" id="rut" class="form-control">
+                            </div>
+                            <div class="col-md-6">
+                                <label>Comuna:</label>
+                                <select name="comuna" id="comuna" class="form-control">
+                                    <option value="--" selected="selected">--</option>
+                                    {% for c in comunas %}
+                                        <option value="{{ c.id_comuna }}">{{ c.descripcion }}</option>
+                                    {% endfor %}
+                                </select>
+                            </div>
+                            <div class="col-md-6">
+                                <label>Actividad:</label>
+                                <select name="actividad" id="actividad" class="form-control">
+                                    <option value="--" selected="selected">--</option>
+                                    {% for ac in actividad %}
+                                        <option value="{{ac}}">{{ac}}</option>
+                                    {% endfor %}
+                                </select>
+                            </div>
+                            <div class="col-md-6">
+                                <label>Acción:</label>
+                                <select name="accion" id="accion" class="form-control">
+                                    <option value="--" selected="selected">--</option>
+                                    {% for a in accion %}
+                                        <option value="{{a}}">{{a}}</option>
+                                    {% endfor %}
+                                </select>
+                            </div>
+                            <div class="col-md-6">
+                                <label>Casillero:</label>
+                                <input type="text" class="form-control" id="casillero" name="casillero" placeholder="Ingrese el nombre del casillero">
+                            </div>
+                            <br>
+                            <div class="col-md-12">
+                                <label>Observación:</label>
+                                <textarea name="observacion" id="observacion" cols="30" rows="3" class="form-control"></textarea>
+                            </div>
+                            <br>
+                            <div class="col-md-12 text-center">
+                                <br>
+                                <a data-toggle='tooltip' data-placement='top' name="agregarCasillero" id="agregarCasillero" class='btn btn-success btn-lg'>Agregar Casillero
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </form>
+        </section>
+    {% endblock %}
+    {% block appScript %}
+        <script src="views/app/js/casilleros/casilleros.js"></script>
+    {% endblock %}

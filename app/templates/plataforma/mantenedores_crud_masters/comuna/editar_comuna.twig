@@ -1,0 +1,75 @@
+{% extends 'portal/portal' %}
+{% block appStylos %}{% endblock %}
+{% block appBody %}
+    <section class="content-header">
+        <h1>
+            Plataforma
+            <small>Editar Comuna</small>
+        </h1>
+        <ol class="breadcrumb">
+            <li>
+                <a href="#">
+                    <i class="fa fa-home"></i>
+                    Home</a>
+            </li>
+            <li>
+                <a href="plataforma/mantenedores_crud_masters">Mantenedores</a>
+            </li>
+            <li>
+                <a href="plataforma/listar_comunas">Listado de Comunas</a>
+            </li>
+            <li class="active">Editar Comuna</li>
+        </ol>
+    </section>
+
+    <!-- Main content -->
+    <section class="content">
+        <div class="row">
+            <div class="col-md-12">
+                <div class="box box-primary">
+                    <form id="editar_comuna_form" action="" method="POST">
+                        <div class="box-body col-sm-4"></div>
+                        <div class="box-body col-sm-4">
+                            <input type='hidden' name='id_comuna' id='id_comuna' value='{{ db_comuna.id_comuna }}'/>
+                            <div class="form-group">
+                                Codigo Comuna
+                                <input class="form-control" name="comuna" id="comuna" type="text" placeholder="Nombre de la comuna" value='{{ db_comuna.nombre }}' required="required"/>
+                                <br>
+                                Zona
+                                <input class="form-control" name="zona" id="zona" type="text" placeholder="Ingrese Zona ej:ZMET" value='{{ db_comuna.zona }}' required="required"/>
+                                <br>
+                                Codigo Zona
+                                <input class="form-control" name="cod_sub_zona" id="cod_sub_zona" type="text" placeholder="Ingrese subzona ej:ZMNOR" value='{{ db_comuna.cod_sub_zona }}' required="required"/>
+                                <br>
+                                Territorio
+                                <input class="form-control" name="territorio" id="territorio" type="text" placeholder="Ingrese Territorio" value='{{ db_comuna.territorio }}' required="required"/>
+                                <br>
+                                Nombre Comuna
+                                <input class="form-control" name="descripcion" id="descripcion" type="text" placeholder="Ingrese nombre completo de la comuna" value='{{ db_comuna.descripcion }}' required="required"/>
+                                <br>
+                                AVAR
+                                <select name="avar" id="avar" class="form-control">
+                                    {% if db_comuna.avar == 1 %}
+                                        <option value="si" selected="selected">SI</option>
+                                        <option value="no">NO</option>
+                                    {% else %}
+                                        <option value="si">SI</option>
+                                        <option value="no" selected="selected">NO</option>
+                                    {% endif %}
+                                </select>
+                            </div>
+                            <div class="panel-footer text-center">
+                                <button type="button" id="update_comuna" class="btn btn-default">Grabar</button>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </section>
+    <!-- /.content -->
+
+{% endblock %}
+{% block appScript %}
+    <script src="views/app/js/plataforma/plataforma.js"></script>
+{% endblock %}

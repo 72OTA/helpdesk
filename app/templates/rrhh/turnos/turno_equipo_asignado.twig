@@ -1,0 +1,149 @@
+{% extends 'portal/portal' %}
+{% block appStylos %}
+  <link rel="stylesheet" href="views/app/template/datatables/dataTables.bootstrap.css">
+{% endblock %}
+
+{% block appBody %}
+    <section class="content-header">
+        <h1>
+            RRHH
+            <small>Equipo Asignado</small>
+        </h1>
+        <ol class="breadcrumb">
+            <li><a href="#"><i class="fa fa-home"></i> Home</a></li>
+            <li class="active">Equipo Asignado</li>
+        </ol>
+    </section>
+
+    <section class="content">
+        <div class="row">
+            <div class="col-md-12">
+                <div class="nav-tabs-custom">
+                    <ul class="nav nav-tabs pull-rigth">
+                        <li><a href="#tab_1-1" data-toggle="tab">Turno Hoy</a></li>
+                        <li class="active"><a href="#tab_2-2" data-toggle="tab">Datos Personales</a></li>
+                    </ul>
+                    <div class="tab-content">
+                        <div class="tab-pane" id="tab_1-1">
+                            <div class="callout callout-info">
+                                <h4>Turnos de Ejecutivos Asignados, Hoy: {{ "now"| date('d-m-Y')}}</h4>
+                            </div>
+                            <table class="table table-bordered table-striped">
+                                <thead>
+                                    <tr>
+                                        <th>N°Semana</th>
+                                        <th Width="200">Ejecutivo</th>
+                                        <th Width="200">Servicio</th>
+                                        <th>Hora Ingreso</th>
+                                        <th>Hora Salida</th>
+                                        <th>Min.Colación</th>
+                                        <th>Hora Colacion</th>
+                                        <th>Break_1</th>
+                                        <th>Break_2</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    {% for ct in getTurnoEquipoAsignado if false != getTurnoEquipoAsignado %}
+                                        <tr>
+                                            <td>{{ ct.n_semana }}</td>
+                                            <td>{{ ct.name }}</td>
+                                            <td>
+                                                {% if ct.servicio == "" %}
+                                                    SIN TURNO ASIGNADO
+                                                {% else %}
+                                                    {{ ct.servicio }}
+                                                {% endif %}
+                                            </td>
+                                            {% if ct.hora_ingreso == "00:00:00" or ct.hora_ingreso == "" %}
+                                                <td>LIBRE</td>
+                                                <td>LIBRE</td>
+                                                <td>LIBRE</td>
+                                                <td>LIBRE</td>
+                                                <td>LIBRE</td>
+                                                <td>LIBRE</td>
+                                            {% else %}
+                                                <td>{{ ct.hora_ingreso  }}</td>
+                                                <td>{{ ct.hora_salida }}</td>
+                                                <td>{{ ct.tiempocolacion }}</td>
+                                                <td>{{ ct.horario_colacion }}</td>
+                                                <td>{{ ct.break_1 }}</td>
+                                                <td>{{ ct.break_2 }}</td>
+                                            {% endif %}
+                                        </tr>
+                                    {% endfor %}
+                                </tbody>
+                            </table>
+                        </div><!-- /.tab-pane -->
+                        <div class="tab-pane active" id="tab_2-2">
+                            <div class="row">
+                                <div class="col-xs-12">
+                                    <div class="box">
+                                        <div class="callout callout-info">
+                                            <h4>Datos Personales Ejecutivos</h4>
+                                        </div>
+                                        <table class="table table-bordered table-striped">
+                                    <thead>
+                                        <tr>
+                                            <th Width="200">Ejecutivo</th>
+                                            <th>Fecha Nacimiento</th>
+                                            <th>Telefono</th>
+                                            <th>Correo Valido</th>
+                                            <th>TANGO</th>
+                                            <th>RED VTR</th>
+                                            <th>NNOC</th>
+
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        {% for ct in getDatosEquipoAsignado if false != getDatosEquipoAsignado %}
+                                            <tr>
+                                                <td><input type="text" size="35" name="name-{{ct.id_user}}" id="name-{{ct.id_user}}" value="{{ ct.name }}" onchange="updateDatosEquipoAsignado('{{ ct.id_user }}');"></td>
+                                                <td><input type="date" name="fecha_nacimiento-{{ct.id_user}}" id="fecha_nacimiento-{{ct.id_user}}" value="{{ ct.fecha_nacimiento }}" onchange="updateDatosEquipoAsignado('{{ ct.id_user }}');"></td>
+                                                <td><input type="text" name="fono-{{ct.id_user}}" id="fono-{{ct.id_user}}" value="{{ ct.fono }}" onchange="updateDatosEquipoAsignado('{{ ct.id_user }}');"></td>
+                                                <td><input type="text" size="30" name="email-{{ct.id_user}}" id="email-{{ct.id_user}}" value="{{ ct.email }}" onchange="updateDatosEquipoAsignado('{{ ct.id_user }}');"></td>
+                                                <td><input type="text" size="5" name="tango-{{ct.id_user}}" id="tango-{{ct.id_user}}" value="{{ ct.user_tango }}" onchange="updateDatosEquipoAsignado('{{ ct.id_user }}');"></td>
+                                                <td><input type="text" size="5" name="red-{{ct.id_user}}" id="red-{{ct.id_user}}" value="{{ ct.user_red }}" onchange="updateDatosEquipoAsignado('{{ ct.id_user }}');"></td>
+                                                <td><input type="text" size="5" name="nnoc-{{ct.id_user}}" id="nnoc-{{ct.id_user}}" value="{{ ct.user_nnoc }}" onchange="updateDatosEquipoAsignado('{{ ct.id_user }}');"></td>
+                                            </tr>
+                                        {% endfor %}
+                                    </tbody>
+                                </table>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+{% endblock %}
+{% block appScript %}
+    <script src="views/app/template/datatables/jquery.dataTables.min.js" type="text/javascript"></script>
+    <script src="views/app/template/datatables/dataTables.bootstrap.min.js" type="text/javascript"></script>
+
+    <script src="views/app/js/rrhh/turnos.js"></script>
+    <script>
+        $("#dataTables3").dataTable({
+             "language": {
+                 "search": "Buscar:",
+                 "zeroRecords": "No hay datos para mostrar",
+                 "info":"Mostrando _END_ usuarios, de un total de _TOTAL_ ",
+                 "loadingRecords": "Cargando...",
+                 "processing":"Procesando...",
+                 "infoEmpty":"No hay entradas para mostrar",
+                 "lengthMenu": "Mostrar _MENU_ Filas",
+                 "paginate":{
+                 "first":"Primera",
+                 "last":"Ultima",
+                 "next":"Siguiente",
+                 "previous":"Anterior",
+                 }
+                           },
+             "autoWidth": true,
+             "lengthMenu": [[10, 25, 50, -1], [10, 25, 50, "Todos"]],
+             "iDisplayLength": 25,
+             "scrollX": true
+         });
+    </script>
+{% endblock %}

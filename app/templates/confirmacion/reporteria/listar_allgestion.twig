@@ -1,0 +1,118 @@
+{% extends 'portal/portal' %}
+{% block appStylos %}
+  <link rel="stylesheet" href="views/app/template/datatables/dataTables.bootstrap.css">
+  <style media="screen">
+    .at{
+      display: none;
+    }
+  </style>
+{% endblock %}
+{% block appBody %}
+<div class="row">
+    <div class="col-md-12">
+        <section class="content-header">
+            <h1>
+                Confirmación
+                <small>Listado de Gestiones Registradas por día</small>
+
+                <div class="pull-right">
+                    <small>
+                        <label>Fecha:</label>
+                        <label>&nbsp;</label>
+                        <input type="date" id="revdesde" name="revdesde" value='{{ "now"|date("Y-m-d") }}'>
+                        <label>&nbsp;</label>
+                        <input type="date" id="revhasta" name="revhasta" value='{{ "now"|date("Y-m-d") }}'>
+                        <label>&nbsp;</label>
+
+                        <button type="button" name="btnbuscar" id="btnbuscar" onclick="revisar_por_fecha_gestiones()" class="btn btn-primary">Aplicar Filtrar</button>
+                        <button type="button" onclick="location.reload();" class="btn btn-primary">Quitar Filtro</button>
+                        <a class="btn btn-success btn-social" id="btn_exporta_excel_ordenes_gestiones" title="Exportar a Excel" data-toggle="tooltip">
+                            <i class="fa fa-arrow-down"></i> Exportar Excel
+                        </a>
+                    </small>
+                </div>
+            </h1>
+        </section>
+    </div>
+</div>
+<section class="content">
+    <div class="row">
+        <div class="col-md-12">
+            <div class="box box-primary">
+                <div class="box-body">
+                    <form id="formordenes" name="formordenes">
+                        <table id="dataordenes" name="dataordenes" class="table table-bordered table-responsive">
+                            <thead>
+                                <tr>
+                                    <th>N°Orden</th>
+                                    <th>Rut Cliente</th>
+                                    <th>Compromiso</th>
+                                    <th>Bloque</th>
+                                    <th>Motivo</th>
+                                    <th>Comuna</th>
+                                    <th>Nodo</th>
+                                    <th>Actividad</th>
+                                    <th>Resultado</th>
+                                    <th>Observacion</th>
+                                    <th>Operador</th>
+                                    <th>Accion</th>
+
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {% set No = 1 %}
+                                {% for t in db_gestiones if false != db_gestiones %}
+                                    <tr>
+                                        <td>{{ t.n_orden }}</td>
+                                        <td>{{ t.rut_cliente }}</td>
+                                        <td>{{ t.fecha_compromiso }}</td>
+                                        <td>{{ t.bloque }}</td>
+                                        <td>{{ t.motivo_llamado }}</td>
+                                        <td>{{ t.comuna }}</td>
+                                        <td>{{ t.nodo }}</td>
+                                        <td>{{ t.actividad }}</td>
+                                        <td>{{ t.desc_resultado }}</td>
+                                        <td>{{ t.observacion }}</td>
+                                        <td>{{ t.name }}</td>
+                                        <td>{{ t.accion }}</td>
+                                    </tr>
+                                    {% set No = No + 1 %}
+                                {% endfor %}
+                            </tbody>
+                        </table>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+{% endblock %}
+{% block appScript %}
+
+  <script src="views/app/template/datatables/jquery.dataTables.min.js" type="text/javascript"></script>
+  <script src="views/app/template/datatables/dataTables.bootstrap.min.js" type="text/javascript"></script>
+
+  <script src="views/app/js/confirmacion/confirmacion.js"></script>
+
+    <script>
+        $("#dataordenes").dataTable({
+            "language": {
+                "search": "Buscar:",
+                "zeroRecords": "No hay datos para mostrar",
+                "info": "Mostrando _END_ Registros, de un total de _TOTAL_ ",
+                "loadingRecords": "Cargando...",
+                "processing": "Procesando...",
+                "infoEmpty": "No hay entradas para mostrar",
+                "lengthMenu": "Mostrar _MENU_ Filas",
+                "paginate": {
+                    "first": "Primera",
+                    "last": "Ultima",
+                    "next": "Siguiente",
+                    "previous": "Anterior"
+                }
+            },
+            "autoWidth": true,
+            "scrollX": true
+        });
+    </script>
+{% endblock %}

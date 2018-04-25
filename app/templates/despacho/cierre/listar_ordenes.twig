@@ -1,0 +1,141 @@
+{% extends 'portal/portal' %}
+{% block appStylos %}
+  <link rel="stylesheet" href="views/app/template/datatables/dataTables.bootstrap.css">
+    <style>
+        .zoom {
+            transition: transform .2s; /* Animation */
+            width: 200px;
+            height: 200px;
+            margin: 0 auto;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: 0.3s;
+        }
+
+        .zoom:hover {
+            width: 500px;
+            height: 250px;
+        }
+    </style>
+{% endblock %}
+{% block appBody %}
+<section class="content-header">
+    <h1>
+        Cierre Asegurado
+        <small>Listado de Ordenes en estado de Cierre</small>
+    </h1>
+</section>
+<section class="content">
+    <div class="row">
+        <div class="col-md-12">
+            <div class="box box-primary">
+                <div class="box-body">
+                    <form id="formordenes" name="formordenes">
+                        <table id="dataordenes" name="dataordenes" class="table table-bordered table-responsive">
+                            <thead>
+                                <tr>
+                                    <th>Numero Orden</th>
+                                    <th>Ejecutivo</th>
+                                    <th>Rut Cliente</th>
+                                    <th>Fecha Compromiso</th>
+                                    <th>Bloque</th>
+                                    <th>Motivo</th>
+                                    <th>Comuna</th>
+                                    <th>Actividad</th>
+                                    <th>Observacion</th>
+                                    <th>Funciones</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {% for t in ordenes_db if false != ordenes_db %}
+                                    <tr>
+                                        <td>{{ t.n_orden }}</td>
+                                        <td>{{ t.id_ejecutivo_cierre }}</td>
+                                        <td>{{ t.rut_cliente }}</td>
+                                        <td>{{ t.fecha_compromiso }}</td>
+                                        <td>{{ t.bloque }}</td>
+                                        <td>{{ t.motivo }}</td>
+                                        <td>{{ t.comuna }}</td>
+                                        <td>{{ t.actividad }}</td>
+                                        <td>{{ t.observacion }}</td>
+                                        <td class='pull-center'>
+                                          {% if t.id_ejecutivo_cierre == 0 %}
+                                          <a data-toggle='tooltip' data-placement='top' name="btnasigna" title='Tomar cierre de OT' class='btn btn-success btn-sm' href="despacho/tomar_orden/{{ t.n_orden }}">
+                                              <i class='glyphicon glyphicon-send'></i>
+                                          </a>
+                                          {% elseif t.id_ejecutivo_cierre == id_user %}
+                                            {% if t.cierre_seguro == 0 %}
+                                            <a data-toggle='tooltip' data-placement='top' name="btncierre" title='Cierre Asegurado' class='btn btn-warning btn-sm' onclick="cierre_asegurado({{ t.n_orden }})">
+                                                <i class='glyphicon glyphicon-earphone'></i>
+                                            </a>
+                                            {% else %}
+                                            <a data-toggle='tooltip' data-placement='top' name="btncierre" title='Cierre Asegurado' class='btn btn-success btn-sm' disabled>
+                                                <i class='glyphicon glyphicon-earphone'></i>
+                                            </a>
+                                          {% endif %}
+
+                                            {% if t.certificacion == 0 %}
+                                          <a data-toggle='tooltip' data-placement='top' id="btncertifica" name="btncertifica" title='Certificacion' class='btn btn-warning btn-sm' onclick="subir_certificacion({{ t.n_orden }})">
+                                              <i class='glyphicon glyphicon-saved'></i>
+                                          </a>
+                                          {% else %}
+                                          <a data-toggle='tooltip' data-placement='top' id="btncertifica" name="btncertifica" title='Certificacion' class='btn btn-success btn-sm' disabled>
+                                              <i class='glyphicon glyphicon-saved'></i>
+                                          </a>
+                                          {% endif %}
+                                          {% if t.speed_test == 0 %}
+                                            <a data-toggle='tooltip' data-placement='top' id="btnspeedtest" name="btnspeedtest" title='Speed Test' class='btn btn-warning btn-sm' onclick="subir_st({{ t.n_orden }})">
+                                                <i class='glyphicon glyphicon-open'></i>
+                                            </a>
+                                          {% else %}
+                                              <a data-toggle='tooltip' data-placement='top' id="btnspeedtest" name="btnspeedtest" title='Speed Test' class='btn btn-success btn-sm' onclick="mostrar_st({{ t.n_orden }});">
+                                                <i class='glyphicon glyphicon-open'></i>
+                                              </a>
+                                          {% endif %}
+
+                                          <a data-placement='top' name="btnfinalizar" id="btnfinalizar" title="Finalizar Orden" class='btn btn-danger btn-sm' onclick="seguro({{ t.n_orden }});">
+                                              <i class='glyphicon glyphicon-certificate'></i>
+                                          </a>
+                                        {% endif %}
+                                        </td>
+                                    </tr>
+                                {% endfor %}
+                            </tbody>
+                        </table>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+{% endblock %}
+{% block appScript %}
+
+  <script src="views/app/template/datatables/jquery.dataTables.min.js" type="text/javascript"></script>
+  <script src="views/app/template/datatables/dataTables.bootstrap.min.js" type="text/javascript"></script>
+
+  <script src="views/app/js/despacho/cierre.js"></script>
+
+    <script>
+        $("#dataordenes").dataTable({
+            "language": {
+                "search": "Buscar:",
+                "zeroRecords": "No hay datos para mostrar",
+                "info": "Mostrando _END_ Registros, de un total de _TOTAL_ ",
+                "loadingRecords": "Cargando...",
+                "processing": "Procesando...",
+                "infoEmpty": "No hay entradas para mostrar",
+                "lengthMenu": "Mostrar _MENU_ Filas",
+                "paginate": {
+                    "first": "Primera",
+                    "last": "Ultima",
+                    "next": "Siguiente",
+                    "previous": "Anterior"
+                }
+            },
+            "autoWidth": true,
+            "scrollX": true
+        });
+    </script>
+{% endblock %}

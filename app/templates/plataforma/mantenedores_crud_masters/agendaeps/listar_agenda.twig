@@ -1,0 +1,95 @@
+{% extends 'portal/portal' %}
+{% block appStylos %}
+  <link rel="stylesheet" href="views/app/template/datatables/dataTables.bootstrap.css">
+{% endblock %}
+{% block appBody %}
+    <section class="content-header">
+        <h1>
+            Plataforma
+            <small>Listado Agenda EPS</small>
+
+          <a class="btn btn-primary btn-social pull-right" href="plataforma/nuevo_agenda" title="Agregar" data-toggle="tooltip">
+            <i class="fa fa-plus"></i> Agregar
+          </a>
+        </h1>
+    </section>
+
+    <!-- Main content -->
+    <section class="content">
+      <div class="row">
+        <div class="col-md-12">
+          <div class="box box-primary">
+            <div class="box-body">
+            <table id="dataTables1" class="table table-bordered">
+              <thead>
+                <tr>
+                  <th>Id</th>
+                  <th>EPS</th>
+                  <th>Contacto</th>
+                  <th>Correo</th>
+                  <th>Telefono</th>
+                  <th>Anexo</th>
+                  <th>Tipo</th>
+                </tr>
+              </thead>
+              <tbody>
+                {% for d in getAllAgendaEPS if false != getAllAgendaEPS %}
+                  <tr>
+                    <td>{{ d.id }}</td>
+                    <td>{{ d.nombre_eps }}</td>
+                    <td>{{ d.contacto }}</td>
+                    <td>{{ d.correo }}</td>
+                    <td>{{ d.telefono }}</td>
+                    <td>{{ d.anexo }}</td>
+                    <td>{{ d.tipo_contacto }}</td>
+                    <td class='center' width='80'>
+                        <a data-toggle='tooltip' data-placement='top' title='Modificar' class='btn btn-success btn-sm' href="plataforma/editar_agenda/{{ d.id }}">
+                            <i class='glyphicon glyphicon-edit'></i>
+                        </a>
+
+                        <a data-toggle='tooltip' data-placement='top' title='Bloqueado' class='btn btn-danger btn-sm' href="plataforma/estado_agenda/{{ d.id }}">
+                            <i class='glyphicon glyphicon-off'></i>
+                        </a>
+                    </td>
+                  </tr>
+                {% endfor %}
+              </tbody>
+            </table>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+    <!-- /.content -->
+
+{% endblock %}
+{% block appScript %}
+    <!-- DATA TABES SCRIPT -->
+    <script src="views/app/template/datatables/jquery.dataTables.min.js" type="text/javascript"></script>
+    <script src="views/app/template/datatables/dataTables.bootstrap.min.js" type="text/javascript"></script>
+
+    <script src="views/app/js/plataforma/plataforma.js"></script>
+
+    <script>
+        $("#dataTables1").dataTable({
+            "language": {
+                "search": "Buscar:",
+                "zeroRecords": "No hay datos para mostrar",
+                "info":"Mostrando _END_ Registros, de un total de _TOTAL_ ",
+                "loadingRecords": "Cargando...",
+                "processing":"Procesando...",
+                "infoEmpty":"No hay entradas para mostrar",
+                "lengthMenu": "Mostrar _MENU_ Filas",
+                "paginate":{
+                  "first":"Primera",
+                  "last":"Ultima",
+                  "next":"Siguiente",
+                  "previous":"Anterior",
+                }
+                          },
+            "autoWidth": true,
+            "scrollX": true
+        });
+    </script>
+
+{% endblock %}

@@ -1,0 +1,106 @@
+{% extends 'portal/portal' %}
+{% block appStylos %}
+  <link rel="stylesheet" href="views/app/template/datatables/dataTables.bootstrap.css">
+{% endblock %}
+{% block appBody %}
+<section class="content-header">
+    <h1>
+        RRHH
+        <small>Listado de Horas Extras</small>
+
+        <a class="btn btn-primary btn-social pull-right" href="rrhh/registra_horasextra" title="solicitar" data-toggle="tooltip">
+            <i class="fa fa-plus"></i> Solicitar
+        </a>
+    </h1>
+</section>
+
+<section class="content">
+  <div class="row">
+    <div class="col-md-12">
+      <div class="box box-primary">
+        <div class="box-body">
+            <table id="dataTables1" class="table table-bordered">
+                <thead>
+                    <tr>
+                        <th>Peticion Creada</th>
+                        <th>Fecha solicitada</th>
+                        <th>Hora desde</th>
+                        <th>Hora hasta</th>
+                        <th>Motivo</th>
+                        <th>Estatus</th>
+                        <th>OPCIONES</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% set No = 1 %}
+                    {% for d in horas_extras if false != horas_extras %}
+                    {% if owner_user['id_user'] == d.id_user %}
+                    <tr>
+                        <td>{{ d.fecha_creacion }}</td>
+                        <td>{{ d.fecha_solicitud }}</td>
+                        <td>{{ d.hora_desde|raw|title }}</td>
+                        <td>{{ d.hora_hasta }}</td>
+                        {% if d.estado == 'Pendiente' %}
+                            <td>{{ d.motivo_solicitud }}</td>
+                        {% else %}
+                            <td>{{ d.motivo_respuesta }}</td>
+                        {% endif %}
+                        <td>{{ d.estado }}</td>
+                        <td class='center' width='150'>
+                            {% if d.estado == "Pendiente" %}
+                                <a data-toggle='tooltip' data-placement='top' title='Modificar' class='btn btn-primary btn-sm' href="rrhh/modificar/{{ d.id_enc_hx }}">
+                                    <i class='glyphicon glyphicon-edit'></i>
+                                </a>
+                            {% elseif d.estado == "Aprobada" %}
+                                <a data-toggle='tooltip' data-placement='top' title='Aceptada ' class='btn btn-success btn-sm' disabled="disabled">
+                                    <i class='glyphicon glyphicon-ok'></i>
+                                </a>
+                            {% elseif d.estado == "Rechazada" %}
+                                <a data-toggle='tooltip' data-placement='top' title='Rechazada ' class='btn btn-danger btn-sm' disabled="disabled">
+                                    <i class='glyphicon glyphicon-remove'></i>
+                                </a>
+                            {% endif %}
+                            {% if d.estado != "Aprobada" %}
+                                <a data-toggle='tooltip' data-placement='top' title='Eliminar' id="btn_eliminar1" onclick="eliminar_peticiones({{  d.id_enc_hx  }})" class='btn btn-warning btn-sm'>
+                                <i class='glyphicon glyphicon-trash'></i>
+                                </a>
+                            {% endif %}
+                        </td>
+                    </tr>
+                    {% endif %}
+                    {% set No = No + 1 %}
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+{% endblock %}
+{% block appScript %}
+    <script src="views/app/template/datatables/jquery.dataTables.min.js" type="text/javascript"></script>
+    <script src="views/app/template/datatables/dataTables.bootstrap.min.js" type="text/javascript"></script>
+    <script src="views/app/js/rrhh/horasextra.js"></script>
+    <script type="text/javascript">
+        $("#dataTables1").dataTable({
+            "language": {
+                "search": "Buscar:",
+                "zeroRecords": "No hay datos para mostrar",
+                "info": "Mostrando _END_ Registros, de un total de _TOTAL_ ",
+                "loadingRecords": "Cargando...",
+                "processing": "Procesando...",
+                "infoEmpty": "No hay entradas para mostrar",
+                "lengthMenu": "Mostrar _MENU_ Filas",
+                "paginate": {
+                    "first": "Primera",
+                    "last": "Ultima",
+                    "next": "Siguiente",
+                    "previous": "Anterior"
+                }
+            },
+            "autoWidth": true,
+            "scrollX": true
+        });
+    </script>
+{% endblock %}

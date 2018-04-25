@@ -1,0 +1,56 @@
+{% extends 'portal/portal' %}
+{% block appBody %}
+<section class="content-header">
+    <h1>
+        RRHH
+        <small>Asignar Ejecutivo a Supervisor</small>
+    </h1>
+    <ol class="breadcrumb">
+    <li><a href="#"><i class="fa fa-home"></i> Home</a></li>
+    <li class="active">Asignar Ejecutivo a Supervisor</li>
+    </ol>
+</section>
+<section class="content">
+    <div class="row">
+        <div class="col-md-12">
+            <div class="box box-primary">
+                <div class="box-body">
+                    <div class="row">
+                        <div class="col-sm-4">
+                            <label><strong>Seleccione Cargo para filtrar</strong></label>
+                            <form name="filtra_usuario_perfil" id="filtra_usuario_perfil" action="" method="POST">
+                                <label>
+                                    <select class="form-control" name='select_perfil' id='select_perfil'>
+                                    <option selected='selected'>--</option>
+                                    {% for d in perfiles %}
+                                        <option>{{ d.nombre }}</option>
+                                    {% endfor %}
+                                    </select>
+                                </label>
+                                <input type='hidden' name='Submit' value='Consultar' id='submit'>
+                            </form>
+                        </div>
+
+                        <div class="col-sm-8">
+                            <form id="form_opciones" name="form_opciones" action="" method="POST">
+                                <label id="resultado" name="resultado">
+                                </label>
+                            </form>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="box-body" id="mostrardatosdiv">
+                            <div id="mostrarDatos">
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+{% endblock %}
+{% block appScript %}
+    <script src="views/app/js/rrhh/asignar_user.js"></script>
+{% endblock %}

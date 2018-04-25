@@ -1,0 +1,66 @@
+{% extends 'portal/portal' %}
+{% block appBody %}
+    <div class="row">
+        <div class="col-lg-12">
+            <section class="content-header">
+                <h1>
+                    Informes
+                    <small>Listado de Gestiones Registradas entre fechas</small>
+                    <div class="pull-right col-lg-7">
+                      <div class="pull-right">
+                        <h4>
+                          <label>Fecha Desde:
+                          </label>
+                          <label>&nbsp;</label>
+                          <input type="date" id="textdesde" name="textdesde" value='{{ fecha_desde }}'>
+                          <label>&nbsp;</label>
+                          <label>Fecha Hasta:
+                          </label>
+                          <label>&nbsp;</label>
+                          <input type="date" id="texthasta" name="texthasta" value='{{ "now"|date("Y-m-d") }}'>
+                          <label>&nbsp;</label>
+                          <button type="button" name="btnbuscar" id="btnbuscar" onclick="revisar_por_fecha_reporte_produccion()" class="btn btn-primary">Aplicar Filtrar</button>
+                        </h4>
+                      </div>
+                    </div>
+                </h1>
+            </section>
+        </div>
+    </div>
+      <section class="content">
+        <div class="row">
+            <div class="col-lg-12">
+                <div class="col-lg-4">
+                    <div class="box">
+                        <div class="box-header">
+                            <h3 class="box-title">Datos</h3>
+                        </div>
+                        <div class="box-body">
+                            <div id="tblfiltro" name="tblfiltro"></div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-8">
+                    <div class="box">
+                        <div class="box-header">
+                            <h3 class="box-title">Grafica</h3>
+                        </div>
+                        <div class="box-body">
+                            <div id="tblgraficos" name="tblgraficos"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+{% endblock %}
+{% block appScript %}
+  <script src="views/app/template/highcharts/highstock.js"></script>
+  <script src="views/app/template/highcharts/exporting.js"></script>
+  <script src="views/app/js/confirmacion/confirmacion.js"></script>
+  <script>
+      $(document).ready(function() {
+          revisar_por_fecha_reporte_produccion();
+      });
+  </script>
+{% endblock %}

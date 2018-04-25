@@ -1,0 +1,177 @@
+{% extends 'portal/portal' %}
+{% block appBody %}
+    <section class="content-header">
+        <h1>
+            Confirmación
+            <small>Principal</small>
+        </h1>
+        <ol class="breadcrumb">
+        <li><a href="#"><i class="fa fa-home"></i> Home</a></li>
+        <li class="active">Dashboard</li>
+        </ol>
+    </section>
+
+    <!-- Main content -->
+    <section class="content">
+        <div class="row">
+            <div class="col-lg-12">
+                <div class="col-lg-3">
+                    <div style="background-color:#00c0ef;color:#fff" class="small-box">
+                        <div class="inner">
+                            <h2>{{ confirma_q_ordenes_gestionadas }}</h2>
+                            <p>Ordenes Registradas Hoy</p>
+                        </div>
+                        <div class="icon">
+                            <i class="fa fa-headphones"></i>
+                        </div>
+                        <!-- <a href="administracion/usuario" class="small-box-footer" title="Ver Ordenes" data-toggle="tooltip"><i class="fa fa-eye"></i></a> -->
+                    </div>
+                </div>
+                <div class="col-lg-3">
+                    <div style="background-color:#00a65a;color:#fff" class="small-box">
+                        <div class="inner">
+                            {% for d in confirma_q_orden_x_estado_confirmacion if false != confirma_q_orden_x_estado_confirmacion %}
+                                    <p>{{ d.cantidad }} - {{ d.Resultado|raw|title }} </p>
+                            {% endfor %}
+                            <p>Resumen Confirmación</p>
+                        </div>
+                        <div class="icon">
+                            <i class="fa fa-eye"></i>
+                        </div>
+                        <!-- <a href="administracion/usuario" class="small-box-footer" title="Ver Ordenes" data-toggle="tooltip"><i class="fa fa-eye"></i></a> -->
+                    </div>
+                </div>
+                <div class="col-lg-3">
+                  <div style="background-color:#f39c12;color:#fff" class="small-box">
+                    <div class="inner">
+                      <h3>Agregar</h3>
+                      <p>Nuevo Orden</p>
+                    </div>
+                    <div class="icon">
+                      <i class="fa fa-plus"></i>
+                    </div>
+                      <a href="confirmacion/programacion" class="small-box-footer" title="Agregar" data-toggle="tooltip"><i class="fa fa-plus"></i></a>
+                  </div>
+                </div><!-- ./col -->
+                <div class="col-lg-3">
+                  <div style="background-color:#00a65a;color:#fff" class="small-box">
+                    <div class="inner">
+                      <h3>Listar</h3>
+                      <p>Ordenes</p>
+                    </div>
+                    <div class="icon">
+                      <i class="fa fa-eye"></i>
+                    </div>
+                      <a href="confirmacion/listar_ordenes" class="small-box-footer" title="Agregar" data-toggle="tooltip"><i class="fa fa-eye"></i></a>
+                  </div>
+                </div><!-- ./col -->
+            </div><!-- ./col -->
+            <!-- Resumen TOP 10 -->
+            <div class="col-lg-6">
+                <div class="box">
+                    <div class="box-header">
+                        <h3 class="box-title">Gestión Confirmación Hoy - Meta: {{ metas }} confirmaciones</h3>
+                    </div>
+                    <div class="box-body">
+                        <table class="table table-bordered">
+                            <thead>
+                                <th>No</th>
+                                <th>Comuna</th>
+                                <th>Llamados</th>
+                                <th>confirmados</th>
+                                <th></th>
+                                <th></th>
+                            </thead>
+                            <tbody>
+                                {% set No = 1 %}
+                                {% set total = 0 %}
+                                {% set total_confirmados = 0 %}
+                                {% for d in confirma_resumen_llamados_ejecutivos if false != confirma_resumen_llamados_ejecutivos %}
+                                    <tr>
+                                        <td>{{ No }}</td>
+                                        <td>{{ d.name|raw|title }}</td>
+                                        <td>{{ d.acum_hoy_total }}</td>
+                                        <td>{{ d.acum_hoy_conf }}</td>
+                                        <td class="col-lg-1"><div class="progress progress-xs">
+                                                <div class="progress-bar progress-bar-aqua" style="width: {{ ((d.acum_hoy_conf / metas)*100) | round(1, 'ceil') }}%" role="progressbar" aria-valuenow="{{ ((d.acum_hoy_conf / metas)*100) | round(1, 'ceil') }}" aria-valuemin="0" aria-valuemax="{{ metas }}">
+                                                    <span class="sr-only">{{ ((d.acum_hoy_conf / metas) *100) | round(1, 'ceil') }}% </span>
+                                                </div>
+                                            </div></td>
+                                        <td>{{((d.acum_hoy_conf / metas) *100) | round(1,'ceil')  }}%</td>
+                                    </tr>
+                                    {% set No =  No + 1 %}
+                                    {% set total = total + d.acum_hoy_total %}
+                                    {% set total_confirmados = total_confirmados + d.acum_hoy_conf %}
+                                {% endfor %}
+                                <tr>
+                                <td colspan="2">TOTAL:</td>
+                                <td>{{total}}</td>
+                                <td>{{total_confirmados}}</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-6">
+                <div class="box">
+                    <div class="box-header">
+                        <h3 class="box-title">Resumen por Bloque</h3>
+                    </div>
+                    <div class="box-body">
+                        <table class="table table-bordered">
+                            <thead>
+                                <th>No</th>
+                                <th>Bloque</th>
+                                <th>Confirmado</th>
+                                <th>Requerido</th>
+                                <th colspan="2">%</th>
+                            </thead>
+                            <tbody>
+                                {% set No = 1 %}
+                                {%set total_agendado = 0 %}
+                                {%set total_requerido = 0 %}
+                                {% for d in confirma_resumen_x_bloque if false != confirma_resumen_x_bloque %}
+                                    <tr>
+                                        <td>{{ No }}</td>
+                                        <td>{{ d.bloque|raw|title }}</td>
+                                        <td>{{ d.cantidad }}</td>
+                                        <td>{{ d.requerido }}</td>
+                                        <td width="100">
+                                            <div class="progress progress-xs">
+                                                <div class="progress-bar progress-bar-aqua" style="width: {{ ((d.cantidad / d.requerido)*100) |round(1, 'ceil') }}%" role="progressbar" aria-valuenow="{{ ((d.cantidad / d.requerido)*100) |round(1, 'ceil') }}" aria-valuemin="0" aria-valuemax="{{ d.requerido }}">
+                                                    <span class="sr-only">{{ ((d.cantidad / d.requerido)*100) |round(1, 'ceil') }}% </span>
+                                                </div>
+                                            </div>
+                                        </td>
+                                        <td >
+                                            {{ ((d.cantidad / d.requerido)*100) |round(1, 'ceil') }}%
+                                        </td>
+                                    </tr>
+                                {% set No =  No + 1 %}
+                                {%set total_agendado = total_agendado + d.cantidad %}
+                                {%set total_requerido = total_requerido + d.requerido  %}
+                                {% endfor %}
+                                <tr>
+                                    <td colspan="2">TOTAL</td>
+                                    <td>{{ total_agendado }}</td>
+                                    <td>{{ total_requerido }}</td>
+                                    <td>
+                                        <div class="progress progress-xs">
+                                            <div class="progress-bar progress-bar-aqua" style="width: {{ ((total_agendado / total_requerido)*100) | round(1, 'ceil') }}%" role="progressbar" aria-valuenow="{{ ((total_agendado / total_requerido)*100) | round(1, 'ceil') }}" aria-valuemin="0" aria-valuemax="{{ total_requerido }}">
+                                                <span class="sr-only">{{ ((total_agendado / total_requerido) *100) | round(1, 'ceil') }}% </span>
+                                            </div>
+                                        </div>
+                                    </td>
+                                    <td>{{((total_agendado / total_requerido) *100) | round(1,'ceil')  }}%</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    <!-- /.content -->
+
+{% endblock %}

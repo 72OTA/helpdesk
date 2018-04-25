@@ -1,0 +1,252 @@
+{% extends 'portal/portal' %}
+{% block appStylos %}
+  <link rel="stylesheet" href="views/app/template/datatables/dataTables.bootstrap.css">
+{% endblock %}
+
+{% block appBody %}
+<section class="content-header">
+    <h1>
+        RRHH
+        <small>Turnos Plataforma</small>
+    </h1>
+    <ol class="breadcrumb">
+    <li><a href="#"><i class="fa fa-home"></i> Home</a></li>
+    <li class="active">Turnos Plataforma</li>
+    </ol>
+</section>
+<section class="content">
+    <div class="row">
+        <div class="col-lg-12">
+            <div class="nav-tabs-custom">
+                <ul class="nav nav-tabs pull-rigth">
+                    <li class="active"><a href="#tab_1-1" data-toggle="tab">TURNO DÍA</a></li>
+                    <li><a href="#tab_2-2" data-toggle="tab" onclick="getTurnoSemanaCompleta();">TURNO SEMANAL</a></li>
+                    <li><a href="#tab_3-3" data-toggle="tab">EJECUTIVOS ACTIVOS</a></li>
+                </ul>
+                <div class="tab-content">
+                    <div class="tab-pane active" id="tab_1-1">
+                        <div class="box box-primary">
+                            <div class="box-body">
+                                <form name="formbuscaturno" id="formbuscaturno"  method="post">
+                                    <div class="input-daterange">
+                                        <label>Fecha: </label>
+                                        <label>&nbsp;</label>
+                                        <input type="date" name="fechaturno" id="fechaturno" value='{{ "now"|date("Y-m-d") }}'>
+                                        <label>&nbsp;</label>
+                                        <button type="button" name="btnbuscar" id="btnbuscar" onclick="revisar_turno_por_fecha()" class="btn btn-primary">Aplicar Filtrar</button>
+                                        <button type="button" onclick="location.reload();" class="btn btn-primary">Quitar Filtro</button>
+                                        <a class="btn btn-success btn-social" id="btn_exporta_excel_turno_plataforma" title="Exportar a Excel" data-toggle="tooltip">
+                                            <i class="fa fa-arrow-down"></i> Exportar Excel
+                                        </a>
+                                    </div>
+                                    <hr>
+                                </form>
+
+                                <table id="dataTables3" class="table table-bordered" >
+                                    <thead>
+                                        <tr>
+                                            <th>N°</th>
+                                            <th Width="200">Nombre</th>
+                                            <th Width="200">Servicio</th>
+
+                                            <th>H.Ingreso</th>
+                                            <th>H.Salida</th>
+
+                                            <th>H.Colacion</th>
+                                            <th>H.Colacion</th>
+                                            <th>Break 1</th>
+                                            <th>Break 2</th>
+                                            <th>Asistencia</th>
+
+                                        </tr>
+                                    </thead>
+                                    <tbody id="turnos">
+                                      {% set No = 1 %}
+                                      {% for t in cargar_turnos if false != cargar_turnos %}
+                                        <tr>
+                                            <td>{{ No }}</td>
+                                            <td>{{ t.name|raw|title }}</td>
+                                            <td>{{ t.servicio }}</td>
+
+                                            <td>{{ t.hora_ingreso  }}</td>
+                                            <td>{{ t.hora_salida }}</td>
+
+
+                                            <td>{{ t.tiempocolacion }}</td>
+                                            <td>{{ t.horario_colacion }}</td>
+                                            <td>{{ t.break_1  }}</td>
+                                            <td>{{ t.break_2 }}</td>
+                                            <td>
+                                                {% if (t.asistencia == 'LIBRE') %}
+                                                    <div class='text-green'>{{ t.asistencia }}</div>
+                                                {% else %}
+                                                    <div class='text-orange'>{{ t.asistencia }}</div>
+                                                {% endif %}
+                                            </td>
+                                        </tr>
+
+                                        {% set No =  No + 1 %}
+                                      {% endfor %}
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="tab-pane" id="tab_2-2">
+                        <div class="box box-primary">
+                            <div class="box-body">
+                                <div class="col-md-12">
+                                    <form name="formbuscaturno_s" id="formbuscaturno_s"  method="post">
+                                        <div class="input-daterange">
+                                            <label>Fecha: </label>
+                                            <label>&nbsp;</label>
+                                            <input type="date" name="fecha_turno_s" id="fecha_turno_s" value='{{ "now"|date("Y-m-d") }}'>
+                                            <label>&nbsp;</label>
+                                            <button type="button" name="btnbuscar_s" id="btnbuscar_s" onclick="getTurnoSemanaCompleta();" class="btn btn-primary">Aplicar Filtrar</button>
+                                            <button type="button" onclick="location.reload();" class="btn btn-primary">Quitar Filtro</button>
+                                            <a class="btn btn-success btn-social" id="btn_exporta_excel_turno_plataforma" title="Exportar a Excel" data-toggle="tooltip">
+                                                <i class="fa fa-arrow-down"></i> Exportar Excel
+                                            </a>
+                                        </div>
+                                        <div id="semana">
+
+                                        </div>
+                                        <hr>
+                                    </form>
+
+                                    <table id="dataTables1" class="table table-bordered">
+                                        <thead>
+                                            <tr>
+                                                <th Width="70%">Nombre</th>
+                                                <th Width="100%">Tarea</th>
+                                                <th>Lunes</th>
+                                                <th>Martes</th>
+                                                <th>Miércoles</th>
+                                                <th>Jueves</th>
+                                                <th>Viernes</th>
+                                                <th>Sábado</th>
+                                                <th>Domingo</th>
+                                            </tr>
+                                        </thead>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="tab-pane" id="tab_3-3">
+                        <div class="box box-primary">
+                            <div class="box-body">
+                                <div class="col-md-12">
+                                    <table id="dataTables2" class="table table-bordered">
+                                        <thead>
+                                            <tr>
+                                                <th Width="200">Supervisor</th>
+                                                <th Width="200">Ejecutivo</th>
+                                                <th Width="200">Cargo</th>
+                                                <th>F.Nacimiento</th>
+                                                <th>Email</th>
+                                                <th>Telefeno</th>
+                                                <th>TANGO</th>
+                                                <th>RED</th>
+                                                <th>NNOC</th>
+
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            {% for t in getEjecutivosFull if false != getEjecutivosFull %}
+                                              <tr>
+                                                  <td>{{ t.supervisor|raw|title }}</td>
+                                                  <td>{{ t.name|raw|title }}</td>
+                                                  <td>{{ t.cargo }}</td>
+                                                  <td>{{ t.fecha_nacimiento }}</td>
+                                                  <td>{{ t.email }}</td>
+                                                  <td>{{ t.fono }}</td>
+
+                                                  <td>{{ t.user_tango  }}</td>
+                                                  <td>{{ t.user_red }}</td>
+                                                  <td>{{ t.user_nnoc }}</td>
+                                              </tr>
+
+                                              {% set No =  No + 1 %}
+                                            {% endfor %}
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+    {% endblock %}
+    {% block appScript %}
+        <script src="views/app/template/datatables/jquery.dataTables.min.js" type="text/javascript"></script>
+        <script src="views/app/template/datatables/dataTables.bootstrap.min.js" type="text/javascript"></script>
+
+        <script src="views/app/js/rrhh/turnos.js"></script>
+        <script>
+            $("#dataTables3").dataTable({
+                 "language": {
+                     "search": "Buscar:",
+                     "zeroRecords": "No hay datos para mostrar",
+                     "info":"Mostrando _END_ usuarios, de un total de _TOTAL_ ",
+                     "loadingRecords": "Cargando...",
+                     "processing":"Procesando...",
+                     "infoEmpty":"No hay entradas para mostrar",
+                     "lengthMenu": "Mostrar _MENU_ Filas",
+                     "paginate":{
+                     "first":"Primera",
+                     "last":"Ultima",
+                     "next":"Siguiente",
+                     "previous":"Anterior",
+                     }
+                  },
+                 "autoWidth": true,
+                 "lengthMenu": [[10, 25, 50, -1], [10, 25, 50, "Todos"]],
+                 "iDisplayLength": -1,
+                 "scrollX": true
+             });
+             $("#dataTables2").dataTable({
+                  "language": {
+                      "search": "Buscar:",
+                      "zeroRecords": "No hay datos para mostrar",
+                      "info":"Mostrando _END_ usuarios, de un total de _TOTAL_ ",
+                      "loadingRecords": "Cargando...",
+                      "processing":"Procesando...",
+                      "infoEmpty":"No hay entradas para mostrar",
+                      "lengthMenu": "Mostrar _MENU_ Filas",
+                      "paginate":{
+                      "first":"Primera",
+                      "last":"Ultima",
+                      "next":"Siguiente",
+                      "previous":"Anterior",
+                      }
+                   },
+                  "autoWidth": true,
+                  "lengthMenu": [[10, 25, 50, -1], [10, 25, 50, "Todos"]],
+                  "iDisplayLength": -1
+              });
+             $("#dataTables1").dataTable({
+                  "language": {
+                      "search": "Buscar:",
+                      "zeroRecords": "No hay datos para mostrar",
+                      "info":"Mostrando _END_ usuarios, de un total de _TOTAL_ ",
+                      "loadingRecords": "Cargando...",
+                      "processing":"Procesando...",
+                      "infoEmpty":"No hay entradas para mostrar",
+                      "lengthMenu": "Mostrar _MENU_ Filas",
+                      "paginate":{
+                      "first":"Primera",
+                      "last":"Ultima",
+                      "next":"Siguiente",
+                      "previous":"Anterior",
+                      }
+                  },
+                  "autoWidth": false,
+                  "lengthMenu": [[10, 25, 50, -1], [10, 25, 50, "Todos"]],
+                  "iDisplayLength": 10
+              });
+        </script>
+    {% endblock %}

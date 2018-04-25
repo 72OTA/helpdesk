@@ -1,0 +1,84 @@
+{% extends 'portal/portal' %}
+{% block appStylos %}
+    <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/smoothness/jquery-ui.css">
+{% endblock %}
+
+{% block appBody %}
+    <section class="content-header">
+        <h1>
+            RRHH
+            <small>Registrar Ausencia</small>
+        </h1>
+        <ol class="breadcrumb">
+            <li><a href="#"><i class="fa fa-home"></i>Home</a></li>
+            <li><a href="rrhh/revisarausencias">Listado de Ausencias</a></li>
+            <li class="active">Registra Ausencia</li>
+        </ol>
+    </section>
+
+    <section class="content">
+        <div class="row">
+            <div class="col-md-12">
+                <div class="box box-primary">
+                    <div class="box-body col-sm-4"></div>
+                    <div class="box-body col-sm-4">
+                        <form id="form_buscar" name="form_buscar" action="" method="POST">
+                            <div class="form-group">
+                                <input class="form-control" type="text" id="busrut" name="busrut" placeholder='Ingrese rut o nombre'/>
+                                <button type="button" name="botrut" id="botrut" class="btn btn-primary" onclick="buscar_rut()">Traer Datos</button>
+                            </div>
+                        </form>
+                        <form id="form_ausencia" name="form_ausencia"  action="" method="POST">
+                            <div class="form-group">
+                                <input class="form-control" type="text" size="50" id="textrut" name="textrut"  placeholder="Rut" readonly/>
+                                <input class="form-control" type="text" id="textnombre" size="50"  name="textnombre" placeholder="Nombre" readonly/>
+                            </div>
+                            <div class="form-group">Tipo de ausencias
+                                <SELECT class="form-control" id="selectinasistencias"  name="selectinasistencias">
+                                    <OPTION>Con Licencia</OPTION>
+                                    <OPTION>Falta con Permiso</OPTION>
+                                    <OPTION>Falta Sin Permiso</OPTION>
+                                    <OPTION>Permiso Sindical</OPTION>
+                                    <OPTION>Vacaciones</OPTION>
+                                </SELECT>
+                            </div>
+                            <div class="form-group">Observación
+                                <textarea class="form-control" id="txtdescripcion" name="txtdescripcion"></textarea>
+                            </div>
+                            <div class="form-group">Desde - Hasta
+                                <input class="form-control" name="iddesde" type="date" id="iddesde" value='{{ "now"|date("Y-m-d") }}'/>
+                                <input class="form-control" name="idhasta" type="date" id="idhasta" value='{{ "now"|date("Y-m-d") }}'/>
+                            </div>
+                            <button type="button" id="guardarregistro" name="guardarregistro" class="btn btn-success">Grabar</button>
+                            <button type="reset" id="limpiar" class="btn btn-default">Limpiar</button>
+
+
+                            <input type="hidden" id="valorusu" name="valorusu" value="{{ owner_user['id_user'] }}"/>
+                            <input type="hidden" id="area" name="area" value="{{ db_area.id_area }}"/>
+                            <input type="hidden"  id="fechaoculta" name="fechaoculta" value='{{ "now"|date("Y-m-d") }}'/>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section >
+{% endblock %}
+
+{% block appScript %}
+    <script src="//code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+    <script>
+         $(function(){
+           var dbdatos = [
+             {% for d in db_users if false != db_users %}
+             '{{d.name}}',
+             '{{d.rut_personal}}',
+             {% endfor %}
+           ];
+           $('#busrut').autocomplete({
+             source: dbdatos
+           });
+         });
+         </script>
+
+         <script src="views/app/js/rrhh/ausencias.js"></script>
+{% endblock %}

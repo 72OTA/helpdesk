@@ -1,0 +1,225 @@
+{% extends 'portal/portal' %}
+{% block appStylos %}
+  <link rel="stylesheet" href="views/app/template/datatables/dataTables.bootstrap.css">
+  <style>
+
+.zoom {
+    transition: transform .2s; /* Animation */
+    width: 200px;
+    height: 200px;
+    margin: 0 auto;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: 0.3s;
+}
+
+.zoom:hover {
+    width: 500px;
+    height: 250px;
+}
+</style>
+{% endblock %}
+{% block appBody %}
+<section class="content-header">
+    <h1>
+        DESPACHO
+        <small>Seguimiento</small>
+    </h1>
+    <ol class="breadcrumb">
+    <li><a href="#"><i class="fa fa-home"></i>Home</a></li>
+    <li class="active">Dashboard</li>
+    </ol>
+</section>
+<section class="content">
+    <div class="row">
+        <div class="col-md-12">
+            <div class="nav-tabs-custom">
+                <ul class="nav nav-tabs pull-rigth">
+                    <li ><a href="#tab_1-1" data-toggle="tab" onclick="actualizar_tablas_resumenes('{{ owner_user['id_user'] }}','usuario');">RESUMEN SEGUIMIENTO</a></li>
+                    <li class="active"><a href="#tab_2-2" data-toggle="tab" onclick="carga_ordenes_comuna_seguimiento();">SEGUIMIENTO</a></li>
+                    <li><a id="tab3" href="#tab_3-3" data-toggle="tab" onclick="actualizar_tabla_ordenes('{{ owner_user['id_user'] }}','*','usuario');">ORDENES ASIGANDAS</a></li>
+                    <li><a id="tab4" href="#tab_4-4" data-toggle="tab" onclick="actualizar_tabla_ordenes('{{ owner_user['id_user'] }}','*','sin_asignar');">ORDENES SIN ASIGNAR</a></li>
+                </ul>
+                <div class="tab-content">
+                    <div class="tab-pane" id="tab_1-1">
+                        <div class="row">
+                            <div class="col-xs-12">
+                                <div class="box">
+                                    <div class="box-header">
+                                        <h3 class="box-title">Comunas y Ordenes Asignadas</h3>
+                                    </div>
+                                    <div id="div_contenedor_resumen_ordenes" class="box-body">
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-12">
+                                <div class="box">
+                                    <div class="box-header">
+                                        <h3 class="box-title">Tecnicos Asignados</h3>
+                                    </div>
+                                    <div id="div_contenedor_tecnicos_asignados" class="box-body">
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="tab-pane active" id="tab_2-2">
+                        <div class="box box-primary">
+                            <div class="box-body resposible">
+                                <div class="col-md-12">
+                                    <div class="row">
+                                        <div class="col-md-1">
+                                            <label>Seleccione Comuna:
+                                        </div></label>
+                                        <div class="col-md-3">
+                                            <select class="form-control" id="comuna_Seguimiento" name="comuna_Seguimiento" onchange="carga_ordenes_comuna_seguimiento();">
+                                                <option>--</option>
+                                                {% for d in db_comunas if false != db_comunas %}
+                                                    <option value="{{ d.comuna }}">{{ d.comuna }}</option>
+                                                {% endfor %}
+                                            </select>
+                                        </div>
+                                    </div>
+                                    <br>
+                                    <div class="row">
+                                        <form id="formseguimiento" name="formseguimiento" method="post">
+                                            <table class="table table-bordered table-responsive" id="tblseguimiento" name="tblseguimiento">
+                                                <thead>
+                                                    <tr>
+                                                        <th>Tipo Orden</th>
+                                                        <th>Actividad</th>
+                                                        <th>N° Orden</th>
+                                                        <th>Rut Cliente</th>
+                                                        <th>Fecha compromiso</th>
+                                                        <th>Bloque</th>
+                                                        <th>Tecnico Asignado</th>
+                                                        <th>Estado de Orden</th>
+                                                        <th>OPERACIONES</th>
+                                                        <th></th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody>
+                                                    <!-- Carga Mediante archivo -->
+                                                </tbody>
+                                            </table>
+                                        </form>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="tab-pane" id="tab_3-3">
+                        <div class="box box-primary">
+                            <div class="box-body resposible">
+                                <div class="col-md-12">
+                                    <table class="table table-bordered table-responsive" id="tblordenes" name="tblordenes">
+                                        <thead>
+                                            <tr>
+                                            <th>No</th>
+                                            <th>Tipo Orden</th>
+                                            <th>Actividad</th>
+                                            <th>N° Orden</th>
+                                            <th>Rut Cliente</th>
+                                            <th>Fecha compromiso</th>
+                                            <th>Bloque</th>
+                                            <th>Comuna</th>
+                                            <th>Tecnico Asignado</th>
+                                            <th>Estado de Orden</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="tab-pane" id="tab_4-4">
+                        <div class="box box-primary">
+                            <div class="box-body resposible">
+                                <div class="col-md-12">
+                                    <!-- <form id="formordenes" name="formordenes" method="post"> -->
+                                        <table class="table table-bordered table-responsive" id="tblordenes_sin_asignar" name="tblordenes_sin_asignar">
+                                            <thead>
+                                                <tr>
+                                                <th>No</th>
+                                                <th>Tipo Orden</th>
+                                                <th>Actividad</th>
+                                                <th>N° Orden</th>
+                                                <th>Rut Cliente</th>
+                                                <th>Fecha compromiso</th>
+                                                <th>Bloque</th>
+                                                <th>Comuna</th>
+                                                <th>Estado de Orden</th>
+                                                <th>Asignar</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                            </tbody>
+                                        </table>
+                                    <!-- </form> -->
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+{% endblock %}
+{% block appScript %}
+
+  <script src="views/app/template/datatables/jquery.dataTables.min.js" type="text/javascript"></script>
+  <script src="views/app/template/datatables/dataTables.bootstrap.min.js" type="text/javascript"></script>
+
+  <script src="views/app/js/despacho/despacho.js"></script>
+  <script src="views/app/js/despacho/cierre.js"></script>
+  <script>
+    $("#tblseguimiento").dataTable({
+      "language": {
+        "search": "Buscar:",
+        "zeroRecords": "No hay datos para mostrar",
+        "info": "Mostrando _END_ Registros, de un total de _TOTAL_ ",
+        "loadingRecords": "Cargando...",
+        "processing": "Procesando...",
+        "infoEmpty": "No hay entradas para mostrar",
+        "lengthMenu": "Mostrar _MENU_ Filas",
+        "paginate": {
+          "first": "Primera",
+          "last": "Ultima",
+          "next": "Siguiente",
+          "previous": "Anterior"
+        }
+      },
+      "autoWidth": true,
+      "bSort": false,
+    "scrollX": true
+    });
+  </script>
+  <script>
+    $("#tblordenes").dataTable({
+      "language": {
+        "search": "Buscar:",
+        "zeroRecords": "No hay datos para mostrar",
+        "info": "Mostrando _END_ Registros, de un total de _TOTAL_ ",
+        "loadingRecords": "Cargando...",
+        "processing": "Procesando...",
+        "infoEmpty": "No hay entradas para mostrar",
+        "lengthMenu": "Mostrar _MENU_ Filas",
+        "paginate": {
+          "first": "Primera",
+          "last": "Ultima",
+          "next": "Siguiente",
+          "previous": "Anterior"
+        }
+      },
+      "autoWidth": true,
+      "bSort": false,
+    "scrollX": true
+    });
+  </script>
+{% endblock %}

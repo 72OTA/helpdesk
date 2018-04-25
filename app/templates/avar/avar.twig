@@ -1,0 +1,18 @@
+{% extends 'overall/layout' %}
+{% block appBody %}
+    <div class="container">
+        <form role="form" id="avar_form">
+
+<div class="form-group">
+    <label>Campo De Ejemplo</label>
+    <input class="form-control" type="text" name="ejemplo" id="id_ejemplo" value="" placeholder="Campo De Ejemplo" />
+</div>
+            <div class="form-group">
+                <button type="button" class="btn btn-primary" id="avar">Enviar</button>
+            </div>
+        </form>
+    </div>
+{% endblock %}
+{% block appFooter %}
+    <script src="views/app/js/avar/avar.js"></script>
+{% endblock %}
